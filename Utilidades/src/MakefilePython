@@ -1,0 +1,18 @@
+SWIG=/usr/bin/swig
+OUTDIR=../bin/python
+
+CFLAGS=-DRELEASE -fPIC -pipe -O2 -ffast-math -march=native -mtune=native -msse -msse2 -msse3 -mmmx -m3dnow -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -I/usr/include/opencv -I../../ARToolkit/include   -DGLUT_HABILITADO=1 -I/usr/include/python2.6 
+
+CFLAGS_DEBUG=-DDEBUG -fPIC -pipe -g -O0 -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -I/usr/include/opencv -I../../ARToolkit/include   -DGLUT_HABILITADO=1 -I/usr/include/python2.6
+
+all: PuiModule.so
+
+Pui.o Pui_wrap.o: Pui.i Pui.cpp Pui.h
+	$(SWIG) -Wall -c++ -python Pui.i
+	g++ -c $(CFLAGS_DEBUG) Pui.cpp Pui_wrap.cxx 
+
+PuiModule.so: Pui.o Pui_wrap.o
+	g++ -shared Pui.o Pui_wrap.o -lstdc++ -pthread -lgstreamer-0.10 -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lxml2 -lglib-2.0 -L/usr/X11R6/lib -L/usr/local/lib -L../../ARToolkit/lib/ -L../../Utilidades/src -lARgsub -lARgsub_lite -lARvideo -lARMulti -lAR -lpthread -lglut -lGLU -lGL -lXi -lX11 -lm -lXmu -lcv -lcvaux cvUtilities.o Funciones.o TimeUtils.o -o _PuiModule.so 
+	mv Pui_wrap.* _PuiModule.so PuiModule.py $(OUTDIR)
+clean:
+	rm Pui.o $(OUTDIR)/Pui_wrap.* $(OUTDIR)/_PuiModule.so $(OUTDIR)/PuiModule.py
