@@ -1,0 +1,11 @@
+#
+#Archivo de configuracion para cargar patterns en modo MODO_SIMPLE
+#El orden de los elementos debe ser el mismo en el que se declaran
+#los objetos PUI en su respectivo archivo de configuracion 
+#
+Data/MostrarAnimales/sonidosFiguras/rana.patt
+Data/MostrarAnimales/sonidosFiguras/pato.patt
+Data/MostrarAnimales/sonidosFiguras/caballo.patt
+Data/MostrarAnimales/sonidosFiguras/oveja.patt
+Data/MostrarAnimales/sonidosFiguras/vaca.patt
+Data/MostrarAnimales/sonidosFiguras/buho.patt

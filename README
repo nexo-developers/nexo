@@ -1,0 +1,26 @@
+#
+# Diseño de Interfaces de usuario perceptuales para las computadoras (XO) del plan Ceibal
+#Perceptual User Interfaces (PUI) 
+#
+# Sebastian Marichal - sebastian_marichal@hotmail.com
+# Marcela Bonilla
+#
+#
+Instrucciones para compilar Biblioteca PUI:
+
+1 - cd ARToolkit/lib/SRC/
+2 - make
+3 - cd Biblioteca\ \PUI
+4 - make
+
+Para construir el wrapper en Python es necesario instalar la herramienta SWIG (www.swig.org)
+y posteriormente bajo el directorio Biblioteca PUI ejecutar: make -f MakefilePython
+
+
+
+Instrucciones para compilar las aplicaciones de ejemplo en C++:
+
+1- cd Biblioteca\ \PUI/samples/c++ 
+2- make
+
+Los programas de ejemplo en Python se encuentran en Biblioteca PUI/samples/python

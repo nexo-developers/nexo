@@ -1,0 +1,28 @@
+#@author Sebastián Marichal
+# 		   sebastian_marichal@hotmail.com
+# 		   sebarocker@gmail.com
+#
+# Universidad de la República, Montevideo , Uruguay
+#
+SWIG=/usr/bin/swig
+I_DIR=wrapper_interface
+ARTK_LIB_DIR= ../ARToolkit/lib/
+ARTK_INC_DIR= ../ARToolkit/include
+SRC_DIR= c++
+OUTDIR=python
+
+CFLAGS=-DRELEASE -fPIC -pipe -O2 -ffast-math -march=native -mtune=native -msse -msse2 -msse3 -mmmx -m3dnow -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -I/usr/include/opencv -I$(ARTK_INC_DIR)   -DGLUT_HABILITADO=1 -I/usr/include/python2.6 
+
+CFLAGS_DEBUG=-DDEBUG -fPIC -pipe -g -O0 -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -I/usr/include/opencv -I$(ARTK_INC_DIR)   -DGLUT_HABILITADO=1 -I/usr/include/python2.6
+
+all: PuiModule.so
+
+Pui.o Pui_wrap.o: $(I_DIR)/Pui.i $(SRC_DIR)/Pui.cpp $(SRC_DIR)/Pui.h
+	$(SWIG) -Wall -c++ -python $(I_DIR)/Pui.i 
+	g++ -c $(CFLAGS_DEBUG) $(SRC_DIR)/Pui.cpp $(I_DIR)/Pui_wrap.cxx -I$(SRC_DIR)
+
+PuiModule.so: Pui.o Pui_wrap.o
+	g++ -shared Pui.o Pui_wrap.o -lstdc++ -pthread -lgstreamer-0.10 -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lxml2 -lglib-2.0 -L/usr/X11R6/lib -L/usr/local/lib -L$(ARTK_LIB_DIR) -lARgsub -lARgsub_lite -lARvideo -lARMulti -lAR -lpthread -lglut -lGLU -lGL -lXi -lX11 -lm -lXmu -lcv -lcvaux cvUtilities.o Funciones.o TimeUtils.o -o _PuiModule.so 
+	mv Pui_wrap.* _PuiModule.so $(SRC_DIR)/PuiModule.py $(OUTDIR)
+clean:
+	rm Pui.o $(OUTDIR)/Pui_wrap.* $(OUTDIR)/_PuiModule.so $(OUTDIR)/PuiModule.py

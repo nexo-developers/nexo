@@ -1,0 +1,50 @@
+#the number of patterns to be recognized  
+6
+
+#marker 1
+Data/prototipo1/patt.a
+40.0
+0 0
+1 0 0 0
+0 1 0 0
+0 0 1 0
+
+#marker 2
+Data/prototipo1/patt.b
+40.0
+0 0
+1 0 0  100
+0 1 0    0
+0 0 1    0
+
+#marker 3
+Data/prototipo1/patt.c
+40.0
+0 0
+1 0 0  200
+0 1 0    0
+0 0 1    0
+
+#marker 4
+Data/prototipo1/patt.d
+40.0
+0 0
+1 0 0    0
+0 1 0 -100
+0 0 1    0
+
+#marker 5
+Data/prototipo1/patt.g
+40.0
+0 0
+1 0 0  100
+0 1 0 -100
+0 0 1    0
+
+#marker 6
+Data/prototipo1/patt.f
+40.0
+0 0
+1 0 0  200
+0 1 0 -100
+0 0 1    0

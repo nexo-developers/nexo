@@ -1,0 +1,132 @@
+INC_DIR= ../../ARToolkit/include
+LIB_DIR= ../../ARToolkit/lib/
+
+INC_DIR_UTIL= ../../Utilidades/src
+LIB_DIR_UTIL= ../../Utilidades/src
+BIN_DIR= ../bin
+
+LDFLAG=-pthread -lgstreamer-0.10 -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lxml2 -lglib-2.0 -L/usr/X11R6/lib -L/usr/local/lib -L$(LIB_DIR) -L$(LIB_DIR_UTIL)
+LIBS= -lARgsub -lARvideo -lARMulti -lAR -lpthread -lglut -lGLU -lGL -lXi -lX11 -lm -lcv -lcvaux -lhighgui -lSDL -lSDL_mixer -lSDL_gfx
+
+#Para optimizacion agresiva. Cuidado, pueden variar los resultados por la perdida de precision
+CFLAG_RELEASE_AGGRESIVE= -pipe -O2 -ffast-math -funroll-all-loops -march=native -mtune=native -msse -msse2 -msse3 -mmmx -m3dnow -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -I/usr/include/opencv -I$(INC_DIR) -I$(INC_DIR_UTIL)
+
+#CFLAG_RELEASE incluye todas las banderas de optimizacion menos -funroll-all-loops
+CFLAG_RELEASE= -pipe -O2 -ffast-math -march=native -mtune=native -msse -msse2 -msse3 -mmmx -m3dnow -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -I/usr/include/opencv -I$(INC_DIR) -I$(INC_DIR_UTIL)
+
+CFLAG = $(CFLAG_RELEASE)
+OBJS =
+HEADDERS =
+
+all: $(BIN_DIR)/CalibradorColorOO $(BIN_DIR)/Prueba $(BIN_DIR)/multiTestPerformance $(BIN_DIR)/Renata $(BIN_DIR)/RenataXO $(BIN_DIR)/clicksCV_SeleccionSimpleXO $(BIN_DIR)/multiTest  $(BIN_DIR)/detectarDedal $(BIN_DIR)/clicks $(BIN_DIR)/clicksCV $(BIN_DIR)/clicksCVXO  $(BIN_DIR)/Calibrador $(BIN_DIR)/CalibradorAR $(BIN_DIR)/clicksCV_SeleccionSimple $(BIN_DIR)/pruebaPerformanceRGB2HSV
+
+$(BIN_DIR)/multiTestPerformance: multiTestPerformance.o $(OBJS)
+	g++ -o $(BIN_DIR)/multiTestPerformance multiTestPerformance.o $(LIB_DIR_UTIL)/TimeUtils.o $(LIB_DIR_UTIL)/OpenCVCamera.o $(OBJS) $(LDFLAG) $(LIBS)
+
+multiTestPerformance.o: multiTestPerformance.cpp  $(HEADDERS)
+	g++ -c  $(CFLAG) multiTestPerformance.cpp
+
+$(BIN_DIR)/pruebaPerformanceRGB2HSV: pruebaPerformanceRGB2HSV.o
+	g++ -o $(BIN_DIR)/pruebaPerformanceRGB2HSV $(LIB_DIR_UTIL)/Utilidades.o $(LIB_DIR_UTIL)/UtilidadesSDL.o $(LIB_DIR_UTIL)/cvUtilities.o pruebaPerformanceRGB2HSV.o $(OBJS) $(LDFLAG) $(LIBS)
+
+$(BIN_DIR)/detectarDedal: detectarDedal.o
+	g++ -o $(BIN_DIR)/detectarDedal $(LIB_DIR_UTIL)/Utilidades.o $(LIB_DIR_UTIL)/UtilidadesSDL.o $(LIB_DIR_UTIL)/cvUtilities.o detectarDedal.o $(OBJS) $(LDFLAG) $(LIBS)
+
+$(BIN_DIR)/clicks: clicks.o
+	g++ -o $(BIN_DIR)/clicks $(LIB_DIR_UTIL)/Utilidades.o $(LIB_DIR_UTIL)/UtilidadesSDL.o clicks.o $(LIB_DIR_UTIL)/cvUtilities.o $(OBJS) $(LDFLAG) $(LIBS)
+
+clicks.o: clicks.cpp 
+	g++ -c  $(CFLAG) clicks.cpp
+
+$(BIN_DIR)/clicksCV: clicksCV.o
+	g++ -o $(BIN_DIR)/clicksCV $(LIB_DIR_UTIL)/Utilidades.o clicksCV.o $(LIB_DIR_UTIL)/cvUtilities.o $(LIB_DIR_UTIL)/UtilidadesSDL.o $(OBJS) $(LDFLAG) $(LIBS)
+
+$(BIN_DIR)/clicksCVXO: clicksCVXO.o
+	g++ -o $(BIN_DIR)/clicksCVXO $(LIB_DIR_UTIL)/Utilidades.o clicksCVXO.o $(LIB_DIR_UTIL)/cvUtilities.o $(LIB_DIR_UTIL)/UtilidadesSDL.o $(OBJS) $(LDFLAG) $(LIBS)
+
+$(BIN_DIR)/clicksCV_SeleccionSimple: clicksCV_SeleccionSimple.o
+	g++ -o $(BIN_DIR)/clicksCV_SeleccionSimple $(LIB_DIR_UTIL)/Utilidades.o $(LIB_DIR_UTIL)/Funciones.o clicksCV_SeleccionSimple.o $(LIB_DIR_UTIL)/cvUtilities.o $(LIB_DIR_UTIL)/UtilidadesSDL.o $(OBJS) $(LDFLAG) $(LIBS)
+	
+$(BIN_DIR)/clicksCV_SeleccionSimpleXO: clicksCV_SeleccionSimpleXO.o
+	g++ -o $(BIN_DIR)/clicksCV_SeleccionSimpleXO $(LIB_DIR_UTIL)/Utilidades.o $(LIB_DIR_UTIL)/Funciones.o clicksCV_SeleccionSimpleXO.o $(LIB_DIR_UTIL)/cvUtilities.o $(LIB_DIR_UTIL)/UtilidadesSDL.o $(OBJS) $(LDFLAG) $(LIBS)
+
+$(BIN_DIR)/Calibrador: Calibrador.o
+	g++ -o $(BIN_DIR)/Calibrador $(LIB_DIR_UTIL)/Utilidades.o $(LIB_DIR_UTIL)/Funciones.o Calibrador.o $(LIB_DIR_UTIL)/cvUtilities.o $(LIB_DIR_UTIL)/UtilidadesSDL.o $(OBJS) $(LDFLAG) $(LIBS)
+
+$(BIN_DIR)/CalibradorAR: CalibradorAR.o
+	g++ -o $(BIN_DIR)/CalibradorAR $(LIB_DIR_UTIL)/Utilidades.o $(LIB_DIR_UTIL)/Funciones.o  $(LIB_DIR_UTIL)/UtilidadesSDL.o CalibradorAR.o $(OBJS) $(LDFLAG) $(LIBS)
+
+$(BIN_DIR)/Renata: Renata.o
+	g++ -o $(BIN_DIR)/Renata $(LIB_DIR_UTIL)/Utilidades.o $(LIB_DIR_UTIL)/cvUtilities.o $(LIB_DIR_UTIL)/Funciones.o Renata.o $(LIB_DIR_UTIL)/UtilidadesSDL.o $(OBJS) $(LDFLAG) $(LIBS)
+
+$(BIN_DIR)/RenataXO: RenataXO.o
+	g++ -o $(BIN_DIR)/RenataXO $(LIB_DIR_UTIL)/Utilidades.o RenataXO.o $(LIB_DIR_UTIL)/UtilidadesSDL.o $(OBJS) $(LDFLAG) $(LIBS)
+
+$(BIN_DIR)/CalibradorColor: CalibradorColor.o
+	g++ -o $(BIN_DIR)/CalibradorColor $(LIB_DIR_UTIL)/UtilidadesSDL.o $(LIB_DIR_UTIL)/cvUtilities.o $(LIB_DIR_UTIL)/Utilidades.o $(LIB_DIR_UTIL)/Funciones.o CalibradorColor.o $(OBJS) $(LDFLAG) $(LIBS)
+
+$(BIN_DIR)/CalibradorColorOO: CalibradorColorOO.o
+	g++ -o $(BIN_DIR)/CalibradorColorOO $(LIB_DIR_UTIL)/cvUtilities.o $(LIB_DIR_UTIL)/Funciones.o $(LIB_DIR_UTIL)/Pui.o CalibradorColorOO.o $(OBJS) $(LDFLAG) $(LIBS)
+
+$(BIN_DIR)/Prueba: Prueba.o
+	g++ -o $(BIN_DIR)/Prueba $(LIB_DIR_UTIL)/cvUtilities.o $(LIB_DIR_UTIL)/Funciones.o $(LIB_DIR_UTIL)/Pui.o Prueba.o $(OBJS) $(LDFLAG) $(LIBS)
+
+clicksCV.o: clicksCV.cpp 
+	g++ -c  $(CFLAG) clicksCV.cpp
+	
+clicksCVXO.o: clicksCVXO.cpp 
+	g++ -c  $(CFLAG) clicksCVXO.cpp
+	
+clicksCV_SeleccionSimple.o: clicksCV_SeleccionSimple.cpp 
+	g++ -c  $(CFLAG) clicksCV_SeleccionSimple.cpp
+
+clicksCV_SeleccionSimpleXO.o: clicksCV_SeleccionSimpleXO.cpp 
+	g++ -c  $(CFLAG) clicksCV_SeleccionSimpleXO.cpp
+
+Calibrador.o: Calibrador.cpp 
+	g++ -c  $(CFLAG) Calibrador.cpp
+
+CalibradorAR.o: CalibradorAR.cpp 
+	g++ -c  $(CFLAG) CalibradorAR.cpp
+
+Renata.o: Renata.cpp 
+	g++ -c  $(CFLAG) Renata.cpp
+
+RenataXO.o: RenataXO.cpp 
+	g++ -c  $(CFLAG) RenataXO.cpp
+
+pruebaPerformanceRGB2HSV.o: pruebaPerformanceRGB2HSV.cpp
+	g++ -c  $(CFLAG) pruebaPerformanceRGB2HSV.cpp
+
+detectarDedal.o: detectarDedal.cpp 
+	g++ -c  $(CFLAG) detectarDedal.cpp
+
+
+	
+$(BIN_DIR)/multiTest: multiTest.o $(OBJS)
+	g++ -o $(BIN_DIR)/multiTest multiTest.o $(LIB_DIR_UTIL)/Utilidades.o $(LIB_DIR_UTIL)/UtilidadesSDL.o $(LIB_DIR_UTIL)/cvUtilities.o $(OBJS) $(LDFLAG) $(LIBS)
+
+multiTest.o: multiTest.c  $(HEADDERS)
+	g++ -c  $(CFLAG) multiTest.c
+
+clean:
+	rm -f *.o
+	rm -f $(BIN_DIR)/multiTest
+	rm -f $(BIN_DIR)/detectarDedal
+	rm -f $(BIN_DIR)/clicks
+	rm -f $(BIN_DIR)/clicksCV
+	rm -f $(BIN_DIR)/clicksCVXO
+	rm -f $(BIN_DIR)/Prueba
+	rm -f $(BIN_DIR)/CalibradorColor
+	rm -f $(BIN_DIR)/CalibradorColorOO
+
+allclean:
+	rm -f *.o
+	rm -f $(BIN_DIR)/multiTest
+	rm -f $(BIN_DIR)/detectarDedal
+	rm -f $(BIN_DIR)/clicks
+	rm -f $(BIN_DIR)/clicksCV
+	rm -f $(BIN_DIR)/clicksCVXO
+	rm -f $(BIN_DIR)/Prueba
+	rm -f $(BIN_DIR)/CalibradorColor
+	rm -f $(BIN_DIR)/CalibradorColorOO
