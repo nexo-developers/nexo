@@ -1,0 +1,11 @@
+#ignore files of git
+
+# Compiled files
+*.a
+*.o
+
+# Example programs
+Biblioteca PUI/bin/MostrarAnimalesPUI
+Biblioteca PUI/bin/TocarAnimalesPUI
+Biblioteca PUI/bin/CalibradorColorOO
+
