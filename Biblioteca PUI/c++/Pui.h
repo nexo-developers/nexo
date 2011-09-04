@@ -24,7 +24,7 @@
 #endif
 
 #include <sys/ioctl.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 #include "cvUtilities.h"
 #include "Estructuras.h"
 #include "Funciones.h"
