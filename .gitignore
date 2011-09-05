@@ -4,6 +4,9 @@
 *.a
 *.o
 
+# Backup files
+*~
+
 # Example programs
 Biblioteca PUI/bin/MostrarAnimalesPUI
 Biblioteca PUI/bin/TocarAnimalesPUI
