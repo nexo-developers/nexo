@@ -17,7 +17,7 @@
 #include <AR/video.h>
 
 #include <sys/ioctl.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 #include <fcntl.h>
 
 %}

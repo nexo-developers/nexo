@@ -1,0 +1,21 @@
+#
+# Diseño de Interfaces de usuario perceptuales para las
+# computadoras (XO) del plan Ceibal
+#    Perceptual User Interfaces (PUI) 
+#
+# Sebastian Marichal - sebastian_marichal@hotmail.com
+# Marcela Bonilla
+#
+#
+
+En este directorio se genera el wrapper para python.
+Para construir el wrapper en Python es necesario instalar
+la herramienta SWIG (www.swig.org) [en Debian "apt-get install swig"]
+Posteriormente bajo el directorio Biblioteca PUI ejecutar: make -f MakefilePython
+
+This directory is were is generated the wrapper for python.
+To build the Python wrapper you need to install SWIG tool 
+(source code: www.swig.org) [or in Debian "apt-get install swig"]
+Later in the Library directory PUI run: make-f MakefilePython
+
+GOOD LUCK!
