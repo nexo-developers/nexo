@@ -29,6 +29,7 @@
 
 
 %typemap(python, in) char* typemapString {
+    printf("En typemapString\n");
     if ($input == Py_None) {
     	fprintf(stderr,"typemapString recibio Py_None, retorna NULL...\n");
         $1 = NULL;
@@ -56,9 +57,9 @@
   	
   	PyArrayObject *array = (PyArrayObject *) PyArray_FromDims(1, &size,PyArray_UBYTE);
   	if (array == NULL){
-	    	PyErr_SetString(PyExc_ValueError,"Error creando PyArray");
-	    	return Py_BuildValue("");
-	}
+    	PyErr_SetString(PyExc_ValueError,"Error creando PyArray");
+    	return Py_BuildValue("");
+    }
     
     //Una vez creado el array copio la info 
     memcpy(array->data,(unsigned char *)(bin_data.data),size);
@@ -538,19 +539,7 @@ public:
 	 */
 	binary_data capturarPyImageAR();
 
-	/**
-	 * Retorna la imagen de debug utilizada por artoolkit.
-	 * No se debe trabajar sobre esta imagen. Es de uso interno
-	 * de artoolkit.
-	 *
-	 * Es recomendable hacer una copia de los datos antes de realizar
-	 * cualquier modificacion
-	 */
-	unsigned char* obtenerImagenDebugAR();
-
-	//TODO Incluir la funcionalidad que retorna la imagen de debug para Python
-	//Implementacion analoga a capturarPyImageAR
-	//binary_data* obtenerPyImagenDebugAR();
+	binary_data obtenerPyImagenDebugAR();
 
 
 		/*******************************************************************************************/
