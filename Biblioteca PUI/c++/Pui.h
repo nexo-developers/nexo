@@ -742,7 +742,7 @@ public:
 
 	//TODO Incluir la funcionalidad que retorna la imagen de debug para Python
 	//Implementacion analoga a capturarPyImageAR
-	//binary_data* obtenerPyImagenDebugAR();
+	binary_data obtenerPyImagenDebugAR();
 
 
 		/*******************************************************************************************/
