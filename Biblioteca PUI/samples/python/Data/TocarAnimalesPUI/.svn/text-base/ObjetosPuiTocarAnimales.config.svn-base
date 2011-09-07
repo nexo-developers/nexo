@@ -1,0 +1,76 @@
+#Id del elemento. (pattId en Artoolkit)
+#Imagen (ruta de la imagen que representa al marcador en la pantalla)
+#Nombre (nombre del elemento)
+#Conjunto (A o B)
+#Elemento relacionado (id del elemento que matchea en el conjunto opuesto)
+#Nombre relacion
+#- Fin del elemento
+#
+#Prueba
+#A ----> (tiene) F
+#B ----> (vive en) G
+#C ----> (es igual a) D
+#
+#Datos del elemento de id 0
+0
+Data/imagenes/rana.bmp
+Data/sonidos/rana.wav
+Rana
+0
+0
+No esta relacionado
+-
+#
+#Datos del elemento de id 1
+1
+Data/imagenes/pato.bmp
+Data/sonidos/pato.wav
+Pato
+1
+0
+No esta relacionado
+-
+#
+#Datos del elemento de id 2
+2
+Data/imagenes/caballo.bmp
+Data/sonidos/caballo.wav
+Caballo
+0
+2
+No esta relacionado
+-
+#
+#Datos del elemento de id 3
+3
+Data/imagenes/oveja.bmp
+Data/sonidos/oveja.wav
+Oveja
+0
+3
+No esta relacionado
+-
+#
+#Datos del elemento de id 4
+4
+Data/imagenes/vaca.bmp
+Data/sonidos/vaca.wav
+Vaca
+0
+4
+No esta relacionado
+-
+#
+#Datos del elemento de id 5
+5
+Data/imagenes/buho.bmp
+Data/sonidos/buho.wav
+Buho
+0
+5
+No esta relacionado
+-
+#Configuraciones generales de sonidos
+&
+Data/sonidos/sonidosclick.wav
+Data/sonidos/sonidos/error.wav

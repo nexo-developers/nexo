@@ -1342,6 +1342,17 @@ unsigned char* Pui::capturarImagenAR(){
 	return (unsigned char*)this->dataArtoolkit.dataPtr;
 }
 
+binary_data Pui::obtenerPyImagenDebugAR(){
+	arDebug=true;
+	if (arImage!=NULL){
+		memcpy(data,arImage,length);
+		result.data=data;
+	}else{
+		result.data = NULL;
+	}
+	result.size = result.data==NULL?0:length;
+	return result;
+}
 
 unsigned char* Pui::obtenerImagenDebugAR(){
 	return arImage;
@@ -1886,7 +1897,7 @@ int Pui::cargarConfiguracionDeteccionApuntadorDesdeArchivo(char * fileName) {
 
 		return 1;
 	}else{
-		printf("Se usaran los valores por defecto, el motivo es: No se puede leer el archivo de configuracion\n");
+		printf("No se puede leer el archivo de configuracion\n");
 	}
 	return 0;
 }

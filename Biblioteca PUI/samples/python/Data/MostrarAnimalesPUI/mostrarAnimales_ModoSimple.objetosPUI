@@ -1,0 +1,76 @@
+#Id del elemento. (pattId en Artoolkit)
+#Imagen (ruta de la imagen que representa al marcador en la pantalla)
+#Nombre (nombre del elemento)
+#Conjunto (A o B)
+#Elemento relacionado (id del elemento que matchea en el conjunto opuesto)
+#Nombre relacion
+#- Fin del elemento
+#
+#Prueba
+#A ----> (tiene) F
+#B ----> (vive en) G
+#C ----> (es igual a) D
+#
+#Datos del elemento de id 0
+0
+Data/MostrarAnimalesPUI/sonidosFiguras/rana.bmp
+Data/MostrarAnimalesPUI/sonidosFiguras/rana.wav
+Rana
+0
+0
+No esta relacionado
+-
+#
+#Datos del elemento de id 1
+1
+Data/MostrarAnimalesPUI/sonidosFiguras/pato.bmp
+Data/MostrarAnimalesPUI/sonidosFiguras/pato.wav
+Pato
+1
+0
+No esta relacionado
+-
+#
+#Datos del elemento de id 2
+2
+Data/MostrarAnimalesPUI/sonidosFiguras/caballo.bmp
+Data/MostrarAnimalesPUI/sonidosFiguras/caballo.wav
+Caballo
+0
+2
+No esta relacionado
+-
+#
+#Datos del elemento de id 3
+3
+Data/MostrarAnimalesPUI/sonidosFiguras/oveja.bmp
+Data/MostrarAnimalesPUI/sonidosFiguras/oveja.wav
+Oveja
+0
+3
+No esta relacionado
+-
+#
+#Datos del elemento de id 4
+4
+Data/MostrarAnimalesPUI/sonidosFiguras/vaca.bmp
+Data/MostrarAnimalesPUI/sonidosFiguras/vaca.wav
+Vaca
+0
+4
+No esta relacionado
+-
+#
+#Datos del elemento de id 5
+5
+Data/MostrarAnimalesPUI/sonidosFiguras/buho.bmp
+Data/MostrarAnimalesPUI/sonidosFiguras/buho.wav
+Buho
+0
+5
+No esta relacionado
+-
+#Configuraciones generales de sonidos
+&
+Data/MostrarAnimalesPUI/sonidosFiguras/click.wav
+Data/MostrarAnimalesPUI/sonidosFiguras/error.wav

@@ -1,0 +1,51 @@
+#the number of patterns to be recognized 
+6
+
+#marker 1
+Data/prototipo1_SeleccionSimple/rana.patt
+40.0
+0 0
+1 0 0 0
+0 1 0 0
+0 0 1 0
+
+#marker 2
+Data/prototipo1_SeleccionSimple/leon.patt
+40.0
+0 0
+1 0 0  100
+0 1 0    0
+0 0 1    0
+
+#marker 3
+Data/prototipo1_SeleccionSimple/pato.patt
+40.0
+0 0
+1 0 0  200
+0 1 0    0
+0 0 1    0
+
+#marker 4
+Data/prototipo1_SeleccionSimple/elefante.patt
+40.0
+0 0
+1 0 0    0
+0 1 0 -100
+0 0 1    0
+
+#marker 5
+Data/prototipo1_SeleccionSimple/oveja.patt
+40.0
+0 0
+1 0 0  100
+0 1 0 -100
+0 0 1    0
+
+#marker 6
+Data/prototipo1_SeleccionSimple/buho.patt
+40.0
+0 0
+1 0 0  200
+0 1 0 -100
+0 0 1    0
+
