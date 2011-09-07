@@ -18,3 +18,5 @@ Biblioteca PUI/bin/MostrarAnimalesPUI
 Biblioteca PUI/bin/TocarAnimalesPUI
 Biblioteca PUI/bin/CalibradorColorOO
 
+# ignore svn repository files
+.svn
