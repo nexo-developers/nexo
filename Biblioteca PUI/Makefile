@@ -38,7 +38,7 @@ CFLAG= $(CFLAG_DEBUG)
 OBJS =
 HEADDERS =
 
-all: Pui.o Funciones.o cvUtilities.o
+all: Pui.o Funciones.o cvUtilities.o lib_artoolkit
 #(XO) all: Pui.o TimeUtils.o OpenCVCamera.o Funciones.o UtilidadesSDL.o cvUtilities.o Utilidades.o ProcesamientoImagenRangosCV ProcesamientoImagenRangosMemoria ProcesamientoImagenRangosMemoriaEstatica findCirclesTestParaCalibracion histogramasEnROI
 
 Pui.o: $(SRC_DIR)/Pui.cpp cvUtilities.o Funciones.o TimeUtils.o
@@ -116,19 +116,25 @@ OUTDIR=python
 CFLAGS_DEBUG += -I/usr/include/python2.6 -I../ARToolkit/include
 
 
-python: PuiModule.so
+python: _PuiModule.so
 
 Pui_wrap.o: $(I_DIR)/Pui.i $(SRC_DIR)/Pui.cpp $(SRC_DIR)/Pui.h
 	$(SWIG) -Wall -c++ -python $(I_DIR)/Pui.i 
 	g++ -c $(CFLAGS_DEBUG) $(I_DIR)/Pui_wrap.cxx -I$(SRC_DIR)
 
-PuiModule.so: Pui.o Pui_wrap.o
-	g++ -shared Pui.o Pui_wrap.o -lstdc++ -pthread -lgstreamer-0.10 -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lxml2 -lglib-2.0 -L/usr/X11R6/lib -L/usr/local/lib -L$(LIB_DIR) -lARgsub -lARgsub_lite -lARvideo -lARMulti -lAR -lpthread -lglut -lGLU -lGL -lXi -lX11 -lm -lXmu -lcv -lcvaux cvUtilities.o Funciones.o TimeUtils.o -o _PuiModule.so 
+_PuiModule.so: Pui.o Pui_wrap.o lib_artoolkit
+	g++ -shared Pui.o Pui_wrap.o -lstdc++ -pthread -lgstreamer-0.10 -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lxml2 -lglib-2.0 -L$(LIB_DIR) -lARgsub -lARgsub_lite -lARvideo -lARMulti -lAR -lpthread -lglut -lGLU -lGL -lXi -lX11 -lm -lXmu -lcv -lcvaux cvUtilities.o Funciones.o TimeUtils.o -o _PuiModule.so 
 	# include in PYTHONXO                      -L../../Utilidades/src                                                           -lhighgui -lSDL -lSDL_mixer -lSDL_gfx cvUtilities.o Funciones.o TimeUtils.o -o _PuiModule.so 
 	mv Pui_wrap.* _PuiModule.so $(I_DIR)/PuiModule.py $(OUTDIR)
 
 cleanpython:
 	rm -f Pui.o $(OUTDIR)/Pui_wrap.* $(OUTDIR)/_PuiModule.so $(OUTDIR)/PuiModule.py
 
+lib_artoolkit:
+	$(MAKE) -C $(LIB_DIR)/SRC all
+
+
+# PHONY TARGETS
+.PHONY: all clean python cleanpython lib_artoolkit
 
 
