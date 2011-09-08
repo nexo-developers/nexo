@@ -11,32 +11,41 @@ $(FC11_REPO)/%.rpm:
 
 
 $(FC11)/%.rpm: $(FC11_REPO)/%.rpm
-	
+	#rpm2cpio $@ | cpio -idmv
 
-%.rpm: $(FC11)/%.rpm
-	
+%.fc11.i586.rpm: $(FC11)/%.fc11.i586.rpm
+	echo pepe 32321
 
 
+pepe: 
+	echo pepe
 
 all:
 	echo yupi
 
 
+cleanrpm:
+	#rm -rf $(FC11)/*
+
 clean:
-	rm -rf $(FC11)/*
+	#rm nothing
 
 
-fc11_bundle: opencv-1.0.0-15.fc11.i586.rpm
+
+fc11_bundle: 0xFFFF-0.3.9-3.fc11.i586.rpm
 	
 
 ceibal_bundle: fc11_bundle
-	
+	# ceibal use fc11
 
 
 
 
 
-.PHONY: all clean fc11_bundle ceibal_bundle
+.PHONY: all clean cleanrpm %.fc11.i586.rpm
+
+
+#fc11_bundle ceibal_bundle
 	
 
 
