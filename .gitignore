@@ -20,3 +20,7 @@ Biblioteca PUI/bin/CalibradorColorOO
 
 # ignore svn repository files
 .svn
+
+
+#ignore download packages of fc11
+xobundle/fc11
