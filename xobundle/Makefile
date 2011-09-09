@@ -41,11 +41,18 @@ ceibal_bundle: fc11_bundle
 
 
 
-
+#to execute even if exist the file
 .PHONY: all clean cleanrpm %.fc11.i586.rpm
+
+
+.SECONDARY: $(FC11)/%.fc11.i586.rpm
+	
+
+
 
 
 #fc11_bundle ceibal_bundle
 	
 
 
+.PRECIOUS: $(FC11)/%.rpm
