@@ -24,3 +24,9 @@ Biblioteca PUI/bin/CalibradorColorOO
 
 #ignore download packages of fc11
 xobundle/fc11
+
+# ignore auto-generated dependency files
+*.d
+
+
+

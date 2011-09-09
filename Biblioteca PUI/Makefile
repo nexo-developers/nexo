@@ -32,7 +32,7 @@ CFLAG_DEBUG   = -pipe -g -O0 -fPIC -pthread -I/usr/include/gstreamer-0.10 -I/usr
 #Banderas para debug, no optimizan (compilacion mas rapida) y generan simbolos de debug
 #(XO) CFLAG_DEBUG = -pipe -g -O0 -fPIC -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -I/usr/include/opencv -I$(INC_DIR)
 
-CFLAG= $(CFLAG_DEBUG)
+CFLAG= $(CFLAG_EXTRA) $(CFLAG_DEBUG)
 #(XO) CFLAG = $(CFLAG_RELEASE)
 
 OBJS =
@@ -132,6 +132,10 @@ cleanpython:
 
 lib_artoolkit:
 	$(MAKE) -C $(LIB_DIR)/SRC all
+
+
+%.d : $(SRC_DIR)/%.cpp
+	gcc $(CFLAG) -M $< > $@
 
 
 # PHONY TARGETS
