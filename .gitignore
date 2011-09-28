@@ -19,11 +19,13 @@ Biblioteca PUI/bin/TocarAnimalesPUI
 Biblioteca PUI/bin/CalibradorColorOO
 
 # ignore svn repository files
-.svn
+*.svn
 
 
 #ignore download packages of fc11
-xobundle/fc11
+*.rpm
+xobundle/fc11/*
+!xobundle/fc11/Makefile
 
 # ignore auto-generated dependency files
 *.d
