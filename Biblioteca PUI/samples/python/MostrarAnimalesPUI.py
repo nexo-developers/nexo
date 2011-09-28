@@ -7,6 +7,7 @@
 #
 import pygame, sys, os, time,gobject
 from time import sleep
+sys.path.append("../../python/")
 import PuiModule
 from pygame import *
 
