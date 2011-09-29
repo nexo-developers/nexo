@@ -32,7 +32,7 @@ CFLAG_DEBUG   = -pipe -g -O0 -fPIC -pthread -I/usr/include/gstreamer-0.10 -I/usr
 #Banderas para debug, no optimizan (compilacion mas rapida) y generan simbolos de debug
 #(XO) CFLAG_DEBUG = -pipe -g -O0 -fPIC -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -I/usr/include/opencv -I$(INC_DIR)
 
-CFLAG= $(CFLAG_EXTRA) $(CFLAG_DEBUG)
+CFLAG= $(CFLAG_CROSS) $(CFLAG_DEBUG)
 #(XO) CFLAG = $(CFLAG_RELEASE)
 
 OBJS =
@@ -55,6 +55,7 @@ cvUtilities.o: $(SRC_DIR)/cvUtilities.cpp Funciones.o
 
 clean:
 	rm -f *.o
+	rm -f *.d
 
 #guille############## MakefileXO
 

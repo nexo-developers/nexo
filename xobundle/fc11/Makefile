@@ -1,20 +1,56 @@
 
 
+CACHE=../cache
 
 
-fc11_stdcpp = libstdc++-devel-4.4.0-4.i586.rpm
-fc11_glibc = glibc-headers-2.10.1-2.i586.rpm glibc-devel-2.10.1-2.i586.rpm
-fc11_kernel_headers = kernel-headers-2.6.29.4-167.fc11.i586.rpm
-fc11_opencv = opencv-1.0.0-15.fc11.i586.rpm
-
-FC11_RPM = $(fc11_glibc) $(fc11_kernel_headers) $(fc11_stdcpp)
+stdcpp = libstdc++-devel-4.4.0-4.i586.rpm
 
 
-$(FC11_REPO)/%.rpm:
-	# ok, lets check if $(FC11) direxctory exist...
-	(if [ ! -e $(FC11) ] ; then mkdir $(FC11) ; fi)
-	# this is fa**ing freaking!, but works :-)
-	(cd $(FC11) && wget $@)
+################## GLIBC files ################
+
+GLIBC = usr/include/stdio.h usr/include/stdlib.h
+$(GLIBC): 
+	$(MAKE) FILE=glibc-headers-2.10.1-2.i586.rpm extract
+
+
+GLIBC_DEV = usr/include/gnu/stubs-32.h
+$(GLIBC_DEV):
+	$(MAKE) FILE=glibc-devel-2.10.1-2.i586.rpm extract
+
+
+################## KERNEL_HEADERS files ################
+
+KERNEL_HEADERS = usr/include/asm/ioctl.h
+$(KERNEL_HEADERS):
+	$(MAKE) FILE=kernel-headers-2.6.29.4-167.fc11.i586.rpm extract
+
+
+################## OPENCV  #############################
+
+OPENCV = usr/lib/libcv.so.1.0.0
+$(OPENCV):
+	$(MAKE) FILE=opencv-1.0.0-15.fc11.i586.rpm extract
+
+
+OPENCV_DEVEL = usr/include/opencv/cv.h
+$(OPENCV_DEVEL):
+	$(MAKE) FILE=opencv-devel-1.0.0-15.fc11.i586.rpm extract
+
+####################################################
+
+
+
+%.rpm:
+	$(MAKE) -C $(CACHE) $@
+
+
+extract:
+	(if [ "$(FILE)" = "" ] ; then exit -1 ; fi)
+	$(MAKE) -C $(CACHE) $(FILE)
+	( rpm2cpio $(CACHE)/$(FILE) | cpio -idmv )
+
+
+
 
 
 $(FC11)/%.rpm: $(FC11_REPO)/%.rpm
@@ -24,21 +60,15 @@ $(FC11)/%.rpm: $(FC11_REPO)/%.rpm
 	
 
 
+all:	$(GLIBC) $(GLIBC_DEV) $(KERNEL_HEADERS) $(OPENCV) $(OPENCV_DEVEL)
+	@echo extract FILE bla bla
+	
 
 
 
-all: ceibal_bundle
-	$(MAKE) -C ../Biblioteca\ PUI       all
-	$(MAKE) -C ..//ARToolkit/lib/SRC    all
-
-
-cleanrpm:
-	rm -rf $(FC11)/*
 
 clean:
-	$(MAKE) -C ../Biblioteca\ PUI      clean
-	$(MAKE) -C ../ARToolkit/lib/SRC    clean
-
+	rm -rf usr bin lib share
 
 
 fc11_bundle: $(FC11_RPM)
@@ -56,4 +86,3 @@ ceibal_bundle: fc11_bundle
 
 
 
-.PRECIOUS: $(FC11)/%.rpm
