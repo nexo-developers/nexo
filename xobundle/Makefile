@@ -7,7 +7,8 @@ INC= -I`pwd`/fc11/usr/include
 CFLAG= $(INC)
 
 
-all: ceibal_bundle
+all:
+	$(MAKE) -C $(FC11) all
 	$(MAKE) -C  ../Biblioteca\ PUI       all
 	$(MAKE) CFLAG_CROSS="$(CFLAG)" -C ../ARToolkit/lib/SRC    all
 
