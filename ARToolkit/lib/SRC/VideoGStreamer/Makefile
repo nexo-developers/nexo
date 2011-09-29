@@ -7,7 +7,7 @@ LIB_DIR = ../..
 #  compiler
 #
 CC=cc
-CFLAG= -fpic -O -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -g -I$(INC_DIR)
+CFLAG= $(CFLAG_CROSS) -fpic -O -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -g -I$(INC_DIR)
 #
 # For making the library
 #
