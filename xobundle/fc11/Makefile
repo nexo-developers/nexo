@@ -36,7 +36,26 @@ OPENCV_DEVEL = usr/include/opencv/cv.h
 $(OPENCV_DEVEL):
 	$(MAKE) FILE=opencv-devel-1.0.0-15.fc11.i586.rpm extract
 
-####################################################
+################# LIBGL & LIBGLU #########################
+
+LIBGL = //TODO
+$(LIBGL):
+	$(MAKE) FILE=mesa-libGL-7.5-0.14.fc11.i586.rpm extract
+
+LIBGL_DEVEL = //TODO
+$(LIBGL_DEVEL):
+	$(MAKE) FILE=mesa-libGL-devel-7.5-0.14.fc11.i586.rpm extract
+
+LIBGLU = //TODO
+$(LIBGLU):
+	$(MAKE) FILE=mesa-libGLU-7.5-0.14.fc11.i586.rpm extract
+
+LIBGLU_DEVEL = //TODO
+$(LIBGLU_DEVEL):
+	$(MAKE) FILE=mesa-libGLU-devel-7.5-0.14.fc11.i586.rpm extract
+
+
+##############################################
 
 
 
