@@ -1,0 +1,9 @@
+#
+#Archivo de configuracion para cargar patterns en modo MODO_SIMPLE
+#El orden de los elementos debe ser el mismo en el que se declaran
+#los objetos PUI en su respectivo archivo de configuracion 
+#
+Data/MostrarAnimales/A.pat
+Data/MostrarAnimales/B.pat
+Data/MostrarAnimales/O.pat
+Data/MostrarAnimales/T.pat
