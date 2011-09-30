@@ -12,9 +12,9 @@ clean:
 	(cd Gl;         make -f Makefile clean)
 	(cd VideoGStreamer;    make -f Makefile clean)
 
-allclean:
-	(cd AR;         make -f Makefile allclean)
-	(cd ARMulti;    make -f Makefile allclean)
-	(cd Gl;         make -f Makefile allclean)
-	(cd VideoGStreamer;    make -f Makefile allclean)
-	rm -f Makefile
+#allclean:
+#	(cd AR;         make -f Makefile allclean)
+#	(cd ARMulti;    make -f Makefile allclean)
+#	(cd Gl;         make -f Makefile allclean)
+#	(cd VideoGStreamer;    make -f Makefile allclean)
+#	rm -f Makefile

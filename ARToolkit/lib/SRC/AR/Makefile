@@ -87,10 +87,10 @@ clean:
 	rm -f *.d
 	rm -f ${LIB}
 
-allclean:
-	rm -f *.o
-	rm -f ${LIB}
-	rm -f Makefile
+#allclean:
+#	rm -f *.o
+#	rm -f ${LIB}
+#	rm -f Makefile
 
 
 # PHONY TARGETS

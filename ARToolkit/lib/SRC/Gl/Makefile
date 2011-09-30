@@ -7,7 +7,7 @@ LIB_DIR = ../..
 #  compiler
 #
 CC= cc
-CFLAG= -fpic -O -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -g -I$(INC_DIR)
+CFLAG= $(CFLAG_CROSS) -fpic -O -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -g -I$(INC_DIR)
 #
 # For making the library
 #
@@ -49,13 +49,18 @@ ${LIB3OBJS}:		${INCLUDE3}
 	${CC} -c ${CFLAG} $<
 	${AR} ${ARFLAGS} $@ $*.o
 	${RANLIB}
-	rm -f $*.o
+
+
+%.d : %.c
+	${CC} $(CFLAG) -M $< > $@
+
 
 clean:
 	rm -f *.o
+	rm -f *.d
 	rm -f ${LIB} ${LIB2} ${LIB3}
 
-allclean:
-	rm -f *.o
-	rm -f ${LIB} ${LIB2} ${LIB3}
-	rm -f Makefile
+#allclean:
+#	rm -f *.o
+#	rm -f ${LIB} ${LIB2} ${LIB3}
+#	rm -f Makefile

@@ -32,11 +32,20 @@ ${LIBOBJS}:	${INCLUDE}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 
+%.d : %.c
+	${CC} $(CFLAG) -M $< > $@
+
+
 clean:
 	rm -f *.o
+	rm -f *.d
 	rm -f ${LIB}
 
-allclean:
-	rm -f *.o
-	rm -f ${LIB}
-	rm -f Makefile
+#allclean:
+#	rm -f *.o
+#	rm -f ${LIB}
+#	rm -f Makefile
+
+# PHONY TARGETS
+.PHONY: all clean allclean
+
