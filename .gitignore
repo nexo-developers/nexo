@@ -30,5 +30,7 @@ xobundle/fc11/*
 # ignore auto-generated dependency files
 *.d
 
-
+# ignorar binarios y autogenerados de mouseCam
+mouseCam.activity/bin/mouse
+mouseCam.activity/MANIFEST
 
