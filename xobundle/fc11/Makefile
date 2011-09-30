@@ -38,19 +38,19 @@ $(OPENCV_DEVEL):
 
 ################# LIBGL & LIBGLU #########################
 
-LIBGL = //TODO
+LIBGL = usr/lib/libGL.so.1.2
 $(LIBGL):
 	$(MAKE) FILE=mesa-libGL-7.5-0.14.fc11.i586.rpm extract
 
-LIBGL_DEVEL = //TODO
+LIBGL_DEVEL = usr/include/GL/gl.h
 $(LIBGL_DEVEL):
 	$(MAKE) FILE=mesa-libGL-devel-7.5-0.14.fc11.i586.rpm extract
 
-LIBGLU = //TODO
+LIBGLU = usr/lib/libGLU.so.1.3.070300
 $(LIBGLU):
 	$(MAKE) FILE=mesa-libGLU-7.5-0.14.fc11.i586.rpm extract
 
-LIBGLU_DEVEL = //TODO
+LIBGLU_DEVEL = usr/include/GL/glu.h
 $(LIBGLU_DEVEL):
 	$(MAKE) FILE=mesa-libGLU-devel-7.5-0.14.fc11.i586.rpm extract
 
