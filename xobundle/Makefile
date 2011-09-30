@@ -2,28 +2,27 @@
 FC11=fc11
 
 
-INC= -I`pwd`/fc11/usr/include
+CFLAG= -I`pwd`/fc11/usr/include
 
-CFLAG= $(INC)
+LDFLAG= -L`pwd`/fc11
+# -L`pwd`/fc11/usr/lib
 
 
-all: ceibal_bundle
-	$(MAKE) -C  ../Biblioteca\ PUI       all
-	$(MAKE) CFLAG_CROSS="$(CFLAG)" -C ../ARToolkit/lib/SRC    all
-
+all:
+	$(MAKE) DIR="../ARToolkit/lib/SRC" OBJ=all cross
+	$(MAKE) DIR="../Biblioteca\ PUI" OBJ=all cross
+	$(MAKE) DIR="../Biblioteca\ PUI/samples/c++" OBJ=all cross
 
 cross:
 	$(MAKE) -C $(FC11)
-	$(MAKE) CFLAG_CROSS="$(CFLAG)" -C $(DIR) $(OBJ)
+	$(MAKE) CFLAG_CROSS="$(CFLAG)" LDFLAG_CROSS="$(LDFLAG)" -C $(DIR) $(OBJ)
 
 
-
-cleanrpm:
-	rm -rf $(FC11)/*
 
 clean:
-	$(MAKE) -C ../Biblioteca\ PUI       clean
-	$(MAKE) -C ..//ARToolkit/lib/SRC    clean
+	$(MAKE) -C ../Biblioteca\ PUI               clean
+	$(MAKE) -C ../ARToolkit/lib/SRC             clean
+	$(MAKE) -C ../Biblioteca\ PUI/samples/c++   clean
 
 
 
