@@ -27,7 +27,9 @@ $(KERNEL_HEADERS):
 
 ################## OPENCV  #############################
 
-OPENCV = usr/lib/libcv.so.1.0.0
+OPENCV = usr/lib/libcv.so.1.0.0      usr/lib/libcvaux.so.1.0.0    \
+         usr/lib/libcxcore.so.1.0.0  usr/lib/libhighgui.so.1.0.0  \
+         usr/lib/libml.so.1.0.0
 $(OPENCV):
 	$(MAKE) FILE=opencv-1.0.0-15.fc11.i586.rpm extract
 
@@ -55,8 +57,26 @@ $(LIBGLU_DEVEL):
 	$(MAKE) FILE=mesa-libGLU-devel-7.5-0.14.fc11.i586.rpm extract
 
 
-##############################################
+#################### SDL_GFX  ##########################
 
+SDLGFX = usr/lib/libSDL_gfx.so.0.0.17
+$(SDLGFX):
+	$(MAKE) FILE=SDL_gfx-2.0.17-2.fc11.i586.rpm extract
+
+SDLGFX_DEV = usr/include/SDL/SDL_gfxPrimitives.h
+$(SDLGFX_DEV):
+	$(MAKE) FILE=SDL_gfx-devel-2.0.17-2.fc11.i586.rpm extract
+
+###################  LIBSUGARIZE  ################################
+
+LIBSUGARIZE = usr/lib/libsugarize.so
+$(LIBSUGARIZE):
+	mkdir -p usr/lib
+	( cd usr/lib ; wget http://download.sugarlabs.org/services/libsugarize/libsugarize-1-1-Linux-i486.tar.bz2 )
+	( cd usr/lib ; tar -xjf libsugarize-1-1-Linux-i486.tar.bz2 )
+	( cd usr/lib ; rm -f libsugarize-1-1-Linux-i486.tar.bz2 README )
+
+################################################################
 
 
 %.rpm:
