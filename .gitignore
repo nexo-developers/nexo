@@ -31,4 +31,12 @@ xobundle/fc11/*
 *.d
 
 
+# links pa el chroot
+usr
+bin
+sbin
+lib
+etc
+var
+share
 
