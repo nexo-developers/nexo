@@ -12,16 +12,19 @@ GLIBC = lib/ld-2.10.1.so
 $(GLIBC):
 	$(MAKE) FILE=glibc-2.10.1-2.i586.rpm extract
 
+GLIBC: $(GLIBC)
 
-GLIBCH = usr/include/stdio.h usr/include/stdlib.h
-$(GLIBCH): 
+GLIBC_HEADERS = usr/include/stdio.h usr/include/stdlib.h
+$(GLIBC_HEADERS): 
 	$(MAKE) FILE=glibc-headers-2.10.1-2.i586.rpm extract
 
+GLIBC_HEADERS: $(GLIBC_HEADERS)
 
-GLIBC_DEV = usr/include/gnu/stubs-32.h
-$(GLIBC_DEV):
+GLIBC_DEVEL = usr/include/gnu/stubs-32.h
+$(GLIBC_DEVEL):
 	$(MAKE) FILE=glibc-devel-2.10.1-2.i586.rpm extract
 
+GLIBC_DEVEL: $(GLIBC_DEV)
 
 ################## KERNEL_HEADERS files ################
 
@@ -29,6 +32,7 @@ KERNEL_HEADERS = usr/include/asm/ioctl.h
 $(KERNEL_HEADERS):
 	$(MAKE) FILE=kernel-headers-2.6.29.4-167.fc11.i586.rpm extract
 
+KERNEL_HEADERS: $(KERNEL_HEADERS)
 
 ################## OPENCV  #############################
 
@@ -38,31 +42,65 @@ OPENCV = usr/lib/libcv.so.1.0.0      usr/lib/libcvaux.so.1.0.0    \
 $(OPENCV):
 	$(MAKE) FILE=opencv-1.0.0-15.fc11.i586.rpm extract
 
+OPENCV: $(OPENCV)
 
 OPENCV_DEVEL = usr/include/opencv/cv.h
 $(OPENCV_DEVEL):
 	$(MAKE) FILE=opencv-devel-1.0.0-15.fc11.i586.rpm extract
 
-################# LIBGL & LIBGLU #########################
+OPENCV_DEVEL: $(OPENCV_DEV)
+
+################# LIBGL & LIBGLU & FREEGLUT #####################
 
 LIBGL = usr/lib/libGL.so.1.2
 $(LIBGL):
 	$(MAKE) FILE=mesa-libGL-7.5-0.14.fc11.i586.rpm extract
 
+LIBGL: $(LIBGL)
+
 LIBGL_DEVEL = usr/include/GL/gl.h
 $(LIBGL_DEVEL):
 	$(MAKE) FILE=mesa-libGL-devel-7.5-0.14.fc11.i586.rpm extract
+
+LIBGL_DEVEL: $(LIBGL_DEVEL)
 
 LIBGLU = usr/lib/libGLU.so.1.3.070300
 $(LIBGLU):
 	$(MAKE) FILE=mesa-libGLU-7.5-0.14.fc11.i586.rpm extract
 
+LIBGLU: $(LIBGLU)
+
 LIBGLU_DEVEL = usr/include/GL/glu.h
 $(LIBGLU_DEVEL):
 	$(MAKE) FILE=mesa-libGLU-devel-7.5-0.14.fc11.i586.rpm extract
 
+LIBGLU_DEVEL: $(LIBGLU_DEVEL)
 
-#################### SDL_GFX  ##########################
+FREEGLUT = usr/lib/libglut.so.3.8.0
+$(FREEGLUT):
+	$(MAKE) FILE=freeglut-2.4.0-16.fc11.i586.rpm extract
+
+FREEGLUT: $(FREEGLUT)
+
+FREEGLUT_DEVEL = usr/include/GL/freeglut.h
+$(FREEGLUT_DEVEL):
+	$(MAKE) FILE=freeglut-devel-2.4.0-16.fc11.i586.rpm extract
+
+FREEGLUT_DEVEL: $(FREEGLUT_DEVEL)
+
+#################### SDL & FRIENDS ##########################
+
+SDL = usr/lib/libSDL-1.2.so.0.11.2
+$(SDL):
+	$(MAKE) FILE=SDL-1.2.13-9.fc11.i586.rpm extract
+
+SDL: $(SDL)
+
+SDL_DEVEL = usr/include/SDL/SDL.h
+$(SDL_DEVEL):
+	$(MAKE) FILE=SDL-devel-1.2.13-9.fc11.i586.rpm extract
+
+SDL_DEVEL: $(SDL_DEVEL)
 
 SDLGFX = usr/lib/libSDL_gfx.so.0.0.17
 $(SDLGFX):
@@ -166,7 +204,7 @@ all:	$(GLIBC) $(GLIBC_DEV) $(KERNEL_HEADERS) $(OPENCV) $(OPENCV_DEVEL)
 
 
 clean:
-	rm -rf usr bin lib share
+	rm -rf usr bin sbin lib share etc var proc
 
 
 fc11_bundle: $(FC11_RPM)
