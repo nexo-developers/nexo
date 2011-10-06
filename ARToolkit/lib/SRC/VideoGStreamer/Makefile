@@ -30,7 +30,7 @@ ${LIBOBJS}:	${INCLUDE}
 .c.a:
 	${CC} -c ${CFLAG} $<
 	${AR} ${ARFLAGS} $@ $*.o
-	rm -f $*.o
+
 
 %.d : %.c
 	${CC} $(CFLAG) -M $< > $@
