@@ -45,8 +45,11 @@ $(BIN_DIR)/TocarAnimalesPUI: TocarAnimalesPUI.o
 $(BIN_DIR)/MostrarAnimalesPUI: MostrarAnimalesPUI.o
 	g++ -o $(BIN_DIR)/MostrarAnimalesPUI $(LIB_DIR_UTIL)/cvUtilities.o $(LIB_DIR_UTIL)/Funciones.o UtilidadesSDL.o $(LIB_DIR_UTIL)/Pui.o MostrarAnimalesPUI.o $(OBJS) $(LDFLAG) $(LIBS)
 
-Renata.o: Renata.cpp 
-	g++ -c  $(CFLAG) Renata.cpp
+$(BIN_DIR)/MouseCam: MouseCam.o
+	g++ -o $(BIN_DIR)/MouseCam $(LIB_DIR_UTIL)/cvUtilities.o $(LIB_DIR_UTIL)/Funciones.o UtilidadesSDL.o nexo_event.o $(LIB_DIR_UTIL)/Pui.o MouseCam.o $(OBJS) $(LDFLAG) $(LIBS) $(LDFLAGS)
+	
+MouseCam.o: MouseCam.cpp
+	g++ -c $(CFLAG) MouseCam.cpp
 
 CalibradorColorOO.o: CalibradorColorOO.cpp 
 	g++ -c  $(CFLAG) CalibradorColorOO.cpp
