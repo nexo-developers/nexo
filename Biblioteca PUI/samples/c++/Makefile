@@ -28,7 +28,10 @@ CFLAG= $(CFLAG_CROSS) $(CFLAG_DEBUG)
 OBJS =
 HEADDERS =
 
-all:  UtilidadesSDL.o $(BIN_DIR)/CalibradorColorOO $(BIN_DIR)/TocarAnimalesPUI $(BIN_DIR)/MostrarAnimalesPUI
+all:  UtilidadesSDL.o nexo_event.o $(BIN_DIR)/CalibradorColorOO $(BIN_DIR)/TocarAnimalesPUI $(BIN_DIR)/MostrarAnimalesPUI $(BIN_DIR)/MouseCam
+
+nexo_event.o: nexo_event.c
+	g++ -c $(CFLAG) nexo_event.c
 
 UtilidadesSDL.o: UtilidadesSDL.cpp
 	g++ -c $(CFLAG) UtilidadesSDL.cpp
@@ -59,9 +62,11 @@ clean:
 	rm -f $(BIN_DIR)/CalibradorColorOO
 	rm -f $(BIN_DIR)/MostrarAnimalesPui
 	rm -f $(BIN_DIR)/TocarAnimalesPui
+	rm -f $(BIN_DIR)/MouseCam
 
 allclean:
 	rm -f *.o
 	rm -f $(BIN_DIR)/CalibradorColorOO
 	rm -f $(BIN_DIR)/MostrarAnimalesPui
 	rm -f $(BIN_DIR)/TocarAnimalesPui
+	rm -f $(BIN_DIR)/MouseCam

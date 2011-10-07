@@ -15,4 +15,4 @@ export LD_PRELOAD="$SUGAR_BUNDLE_PATH/lib/libsugarize.so" # otherwise never stop
 export ARTOOLKIT_CONFIG="v4l2src device=/dev/video0 use-fixed-fps=10 ! ffmpegcolorspace ! capsfilter caps=video/x-raw-rgb,width=320,height=240 ! identity name=artoolkit ! fakesink"
 export LD_LIBRARY_PATH="$SUGAR_BUNDLE_PATH/lib/:$LD_LIBRARY_PATH"
 cd "$SUGAR_BUNDLE_PATH/bin/PUI/bin/"
-mouse
+MouseCam
