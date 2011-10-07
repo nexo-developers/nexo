@@ -12,7 +12,12 @@ while [ -n "$2" ] ; do
 done
 export PATH="$SUGAR_BUNDLE_PATH/bin:$PATH"
 export LD_PRELOAD="$SUGAR_BUNDLE_PATH/lib/libsugarize.so" # otherwise never stops blinkin
-export ARTOOLKIT_CONFIG="v4l2src device=/dev/video0 use-fixed-fps=10 ! ffmpegcolorspace ! capsfilter caps=video/x-raw-rgb,width=320,height=240 ! identity name=artoolkit ! fakesink"
+export ARTOOLKIT_CONFIG=export ARTOOLKIT_CONFIG="v4l2src device=/dev/video0 ! videorate ! video/x-raw-yuv,width=320,height=240,framerate=5/1 ! ffmpegcolorspace ! capsfilter caps=video/x-raw-rgb,bpp=24 ! identity name=artoolkit ! fakesink"
 export LD_LIBRARY_PATH="$SUGAR_BUNDLE_PATH/lib/:$LD_LIBRARY_PATH"
-cd "$SUGAR_BUNDLE_PATH/bin/PUI/bin/"
-MouseCam
+cd "$SUGAR_BUNDLE_PATH/bin/PUI/bin"
+if ! MouseCam
+then
+	export ARTOOLKIT_CONFIG=export ARTOOLKIT_CONFIG="v4l2src device=/dev/video0 ! videorate ! video/x-raw-yuv,width=640,height=480,framerate=5/1 ! ffmpegcolorspace ! capsfilter caps=video/x-raw-rgb,bpp=24 ! identity name=artoolkit ! fakesink"
+	MouseCam
+fi
+

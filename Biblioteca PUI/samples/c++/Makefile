@@ -28,10 +28,7 @@ CFLAG= $(CFLAG_CROSS) $(CFLAG_DEBUG)
 OBJS =
 HEADDERS =
 
-all:  UtilidadesSDL.o nexo_event.o $(BIN_DIR)/CalibradorColorOO $(BIN_DIR)/TocarAnimalesPUI $(BIN_DIR)/MostrarAnimalesPUI $(BIN_DIR)/MouseCam
-
-nexo_event.o: nexo_event.c
-	g++ -c $(CFLAG) nexo_event.c
+all:  UtilidadesSDL.o $(BIN_DIR)/CalibradorColorOO $(BIN_DIR)/TocarAnimalesPUI $(BIN_DIR)/MostrarAnimalesPUI
 
 UtilidadesSDL.o: UtilidadesSDL.cpp
 	g++ -c $(CFLAG) UtilidadesSDL.cpp
@@ -44,12 +41,6 @@ $(BIN_DIR)/TocarAnimalesPUI: TocarAnimalesPUI.o
 	
 $(BIN_DIR)/MostrarAnimalesPUI: MostrarAnimalesPUI.o
 	g++ -o $(BIN_DIR)/MostrarAnimalesPUI $(LIB_DIR_UTIL)/cvUtilities.o $(LIB_DIR_UTIL)/Funciones.o UtilidadesSDL.o $(LIB_DIR_UTIL)/Pui.o MostrarAnimalesPUI.o $(OBJS) $(LDFLAG) $(LIBS)
-
-$(BIN_DIR)/MouseCam: MouseCam.o
-	g++ -o $(BIN_DIR)/MouseCam $(LIB_DIR_UTIL)/cvUtilities.o $(LIB_DIR_UTIL)/Funciones.o UtilidadesSDL.o nexo_event.o $(LIB_DIR_UTIL)/Pui.o MouseCam.o $(OBJS) $(LDFLAG) $(LIBS) $(LDFLAGS)
-	
-MouseCam.o: MouseCam.cpp
-	g++ -c $(CFLAG) MouseCam.cpp
 
 CalibradorColorOO.o: CalibradorColorOO.cpp 
 	g++ -c  $(CFLAG) CalibradorColorOO.cpp
@@ -65,11 +56,9 @@ clean:
 	rm -f $(BIN_DIR)/CalibradorColorOO
 	rm -f $(BIN_DIR)/MostrarAnimalesPui
 	rm -f $(BIN_DIR)/TocarAnimalesPui
-	rm -f $(BIN_DIR)/MouseCam
 
 allclean:
 	rm -f *.o
 	rm -f $(BIN_DIR)/CalibradorColorOO
 	rm -f $(BIN_DIR)/MostrarAnimalesPui
 	rm -f $(BIN_DIR)/TocarAnimalesPui
-	rm -f $(BIN_DIR)/MouseCam
