@@ -7,7 +7,7 @@ LIB_DIR = ../..
 #  compiler
 #
 CC= cc
-CFLAG= -O -fpic -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -g -I$(INC_DIR)
+CFLAG= $(CFLAG_CROSS) -O -fpic -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -g -I$(INC_DIR)
 #
 # For making the library
 #
@@ -39,13 +39,23 @@ ${LIBOBJS}:	${INCLUDE}
 	${CC} -c ${CFLAG} $<
 	${AR} ${ARFLAGS} $@ $*.o
 	${RANLIB}
-	rm -f $*.o
+
+
+%.d : %.c
+	${CC} $(CFLAG) -M $< > $@
+
 
 clean:
 	rm -f *.o
+	rm -f *.d
 	rm -f ${LIB}
 
-allclean:
-	rm -f *.o
-	rm -f ${LIB}
-	rm -f Makefile
+#allclean:
+#	rm -f *.o
+#	rm -f ${LIB}
+#	rm -f Makefile
+
+
+# PHONY TARGETS
+.PHONY: all clean allclean
+
