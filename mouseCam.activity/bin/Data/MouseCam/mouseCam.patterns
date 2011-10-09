@@ -1,0 +1,20 @@
+#
+#Archivo de configuracion para cargar patterns en modo MODO_SIMPLE
+#El orden de los elementos debe ser el mismo en el que se declaran
+#los objetos PUI en su respectivo archivo de configuracion 
+#
+Data/MouseCam/A.pat
+Data/MouseCam/B.pat
+Data/MouseCam/T.pat
+Data/MouseCam/O.pat
+Data/MouseCam/C.pat
+
+Data/MouseCam/vecindario.pat
+Data/MouseCam/vecindario.pat
+Data/MouseCam/vecindario.pat
+Data/MouseCam/vecindario.pat
+
+Data/MouseCam/vecindario.pat
+Data/MouseCam/grupo.pat
+Data/MouseCam/hogar.pat
+Data/MouseCam/actividad.pat

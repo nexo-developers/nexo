@@ -1,0 +1,121 @@
+#Id del elemento. (pattId en Artoolkit)
+#Imagen (ruta de la imagen que representa al marcador en la pantalla)
+#Nombre (nombre del elemento)
+#Conjunto (A o B)
+#Elemento relacionado (id del elemento que matchea en el conjunto opuesto)
+#Nombre relacion
+#- Fin del elemento
+#
+#Prueba
+#A ----> (tiene) F
+#B ----> (vive en) G
+#C ----> (es igual a) D
+#
+#Datos del elemento de id 0
+#
+#Datos del elemento de id 1
+
+0
+Data/MostrarAnimales2/coco.bmp
+Data/MostrarAnimales2/coco.wav
+Coco
+1
+0
+No esta relacionado
+-
+1
+Data/MostrarAnimales2/leon.bmp
+Data/MostrarAnimales2/leon.wav
+Leon
+0
+0
+No esta relacionado
+-
+2
+Data/MostrarAnimales2/oveja.jpg
+Data/MostrarAnimales2/leon.wav
+Oveja
+1
+0
+No esta relacionado
+-
+3
+Data/MostrarAnimales2/Tero.jpg
+Data/MostrarAnimales2/leon.wav
+Tero
+0
+0
+No esta relacionado
+-
+4
+Data/MostrarAnimales2/Tero.jpg
+Data/MostrarAnimales2/leon.wav
+Click
+0
+0
+No esta relacionado
+-
+5
+Data/MostrarAnimales2/Tero.jpg
+Data/MostrarAnimales2/leon.wav
+Tecla_Arriba
+0
+0
+No esta relacionado
+-
+6
+Data/MostrarAnimales2/Tero.jpg
+Data/MostrarAnimales2/leon.wav
+Tecla_Abajo
+0
+0
+No esta relacionado
+-
+7
+Data/MostrarAnimales2/Tero.jpg
+Data/MostrarAnimales2/leon.wav
+Tecla_Derecha
+0
+0
+No esta relacionado
+-
+8
+Data/MostrarAnimales2/Tero.jpg
+Data/MostrarAnimales2/leon.wav
+Tecla_Izquierda
+0
+0
+No esta relacionado
+-
+9
+Data/MostrarAnimales2/Tero.jpg
+Data/MostrarAnimales2/leon.wav
+Tecla_f1
+0
+0
+No esta relacionado
+-
+10
+Data/MostrarAnimales2/Tero.jpg
+Data/MostrarAnimales2/leon.wav
+Tecla_f2
+0
+0
+No esta relacionado
+-
+11
+Data/MostrarAnimales2/Tero.jpg
+Data/MostrarAnimales2/leon.wav
+Tecla_f3
+0
+0
+No esta relacionado
+-
+12
+Data/MostrarAnimales2/Tero.jpg
+Data/MostrarAnimales2/leon.wav
+Tecla_f4
+0
+0
+No esta relacionado
+-
