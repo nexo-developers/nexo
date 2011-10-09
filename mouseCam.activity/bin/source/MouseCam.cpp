@@ -1,9 +1,9 @@
 #include "Pui.h"
-#include "UtilidadesSDL.h"
 #include "nexo_event.h"
-#include <AR/gsub.h>
-#include <GL/gl.h>
-#include <GL/glut.h>
+#include <unistd.h>
+//#include <AR/gsub.h>
+//#include <GL/gl.h>
+//#include <GL/glut.h>
 #define MAX_MARCADORES 30
 #define CANT_HISTORIA 2
 
@@ -37,35 +37,63 @@ static void init(void);
 static void cleanup(void);
 static void mainLoop(void);
 
-int main(int argc, char **argv){
-  pui = new Pui();
-  init();
-  printf("main loop\n");
-  argMainLoop( NULL, NULL, mainLoop );
-  return (0);
+static void generateEvent(int idObjetoPUIActual){
+      
+    switch(idObjetoPUIActual) {
+        case 0: createRelativeMouseEvent(0,-10);break;
+        case 1: createRelativeMouseEvent(0,10);break;
+        case 2: createRelativeMouseEvent(10,0);break;
+        case 3: createRelativeMouseEvent(-10,0);break;
+        case 4: mouseClick(Button1);break;
+        case 5: createKeyEvent(TRUE, XStringToKeysym("A"), 0);break;
+        case 6: createKeyEvent(TRUE, XStringToKeysym("B"), 0);break;
+        case 7: createKeyEvent(TRUE, XStringToKeysym("D"), 0);break;
+        case 8: createKeyEvent(TRUE, XStringToKeysym("I"), 0);break;
+        case 9: createKeyEvent(TRUE, XStringToKeysym("F1"), 0);break;
+        case 10: createKeyEvent(TRUE, XStringToKeysym("F2"), 0);break;
+        //case 10: createKeyEvent(TRUE, XK_F2, 0);break;
+        case 11: createKeyEvent(TRUE, XStringToKeysym("F3"), 0);break;
+        case 12: createKeyEvent(TRUE, XStringToKeysym("F4"), 0);break;
+        default:printf("No event defined.\n");
+    }
 }
 
-static void generateEvent(int idObjetoPUIActual){
-  
-  switch(idObjetoPUIActual) {
-    case 0: createRelativeMouseEvent(0,-10);break;
-    case 1: createRelativeMouseEvent(0,10);break;
-    case 2: createRelativeMouseEvent(10,0);break;
-    case 3: createRelativeMouseEvent(-10,0);break;
-    case 4: mouseClick(Button1);break;
-    case 5: createKeyEvent(TRUE, XStringToKeysym("A"), 0);break;
-    case 6: createKeyEvent(TRUE, XStringToKeysym("B"), 0);break;
-    case 7: createKeyEvent(TRUE, XStringToKeysym("D"), 0);break;
-    case 8: createKeyEvent(TRUE, XStringToKeysym("I"), 0);break;
-    case 9: createKeyEvent(TRUE, XStringToKeysym("F1"), 0);break;
-	case 10: createKeyEvent(TRUE, XStringToKeysym("F2"), 0);break;
-    //case 10: createKeyEvent(TRUE, XK_F2, 0);break;
-    case 11: createKeyEvent(TRUE, XStringToKeysym("F3"), 0);break;
-    case 12: createKeyEvent(TRUE, XStringToKeysym("F4"), 0);break;
-    default:printf("No event defined.\n");
-  }
- 
+int main(int argc, char **argv){
+    double frameInt = 0;
+    pui = new Pui();
+    init();
+    printf("main loop\n");
+    int err_deteccion;
+
+    while (true) {
+        //arVideoInqFramerateInterval(&frameInt);
+        //usleep((unsigned long)frameInt);
+        //printf("el frameInt es:%e", frameInt); 
+        if(!pui->capturarImagenAR()){
+        	
+        }else{
+        	err_deteccion = pui->detectarMarcadoresSimple();
+            if(err_deteccion==DETECCION_CORRECTA){
+	            idObjetoDetectado = pui->getIdMarcadorSimpleDetectado();
+	            if(idObjetoDetectado!=-1){
+		            printf("MARCADOR %s DETECTADO\n",pui->getNombreObjetoPUI(idObjetoDetectado)==NULL?"--":pui->getNombreObjetoPUI(idObjetoDetectado));
+		            idObjetoPUIActual = idObjetoDetectado;
+		            generateEvent(idObjetoPUIActual);
+	            }
+	        }else if(err_deteccion==ERROR_NINGUN_MARCADOR_DETECTADO){
+		        //printf("No reconocio ningun marcador.\n");
+	        }else if(err_deteccion==ERROR_DETECTANDO_MARCADORES){
+		        printf("Error detectando marcadores\n");
+	        }else if(err_deteccion==ERROR_IMAGEN_NULL){
+		        printf("Error! imagen es NULL\n");
+	        }else{
+		        printf("err_deteccion= %d \n",err_deteccion);
+	        }
+        }
+    }
+    return (0);
 }
+
 
 /* main loop */
 static void mainLoop(void)
@@ -76,22 +104,22 @@ static void mainLoop(void)
     	return;
     }else{
     	err_deteccion = pui->detectarMarcadoresSimple();
-	if(err_deteccion==DETECCION_CORRECTA){
-	    idObjetoDetectado = pui->getIdMarcadorSimpleDetectado();
-	    if(idObjetoDetectado!=-1){
-		    printf("MARCADOR %s DETECTADO\n",pui->getNombreObjetoPUI(idObjetoDetectado)==NULL?"--":pui->getNombreObjetoPUI(idObjetoDetectado));
-		    idObjetoPUIActual = idObjetoDetectado;
-		    generateEvent(idObjetoPUIActual);
+	    if(err_deteccion==DETECCION_CORRECTA){
+	        idObjetoDetectado = pui->getIdMarcadorSimpleDetectado();
+	        if(idObjetoDetectado!=-1){
+		        printf("MARCADOR %s DETECTADO\n",pui->getNombreObjetoPUI(idObjetoDetectado)==NULL?"--":pui->getNombreObjetoPUI(idObjetoDetectado));
+		        idObjetoPUIActual = idObjetoDetectado;
+		        generateEvent(idObjetoPUIActual);
+	        }
+	    }else if(err_deteccion==ERROR_NINGUN_MARCADOR_DETECTADO){
+		    //printf("No reconocio ningun marcador.\n");
+	    }else if(err_deteccion==ERROR_DETECTANDO_MARCADORES){
+		    printf("Error detectando marcadores\n");
+	    }else if(err_deteccion==ERROR_IMAGEN_NULL){
+		    printf("Error! imagen es NULL\n");
+	    }else{
+		    printf("err_deteccion= %d \n",err_deteccion);
 	    }
-	}else if(err_deteccion==ERROR_NINGUN_MARCADOR_DETECTADO){
-		//printf("No reconocio ningun marcador.\n");
-	}else if(err_deteccion==ERROR_DETECTANDO_MARCADORES){
-		printf("Error detectando marcadores\n");
-	}else if(err_deteccion==ERROR_IMAGEN_NULL){
-		printf("Error! imagen es NULL\n");
-	}else{
-		printf("err_deteccion= %d \n",err_deteccion);
-	}
     }
 }
 
@@ -104,9 +132,7 @@ static void init( void ){
 					    //valor escogido entonces el marcador no se considera detectado
 					    //Por defecto este valor esta definido en MIN_CF_MARKER_DETECT = 0.6 . Cuanto mas alto menos probabilidad de detecciones equivocadas
 					    //pero tambien cuesta mas realizar una deteccion, especialmente trabajando con resolucion baja
-    pui->abrirVentanaGrafica();
     pui->capStart();
-
 
     cantElementosCargados = pui->leerConfiguracionObjetosPUI("Data/MouseCam/mouseCam.objetosPUI",MAX_MARCADORES);
     printf("Se cargaron %d elementos\n",cantElementosCargados);
@@ -126,7 +152,6 @@ static void init( void ){
 /* cleanup function called when program exits */
 static void cleanup(void)
 {
-    pui->cerrarVentanaGrafica();
     pui->finish();
-    cleanUpSDL();
 }
+

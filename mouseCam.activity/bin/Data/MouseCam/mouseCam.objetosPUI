@@ -18,7 +18,7 @@
 0
 Data/MostrarAnimales2/coco.bmp
 Data/MostrarAnimales2/coco.wav
-Coco
+arriba mouse
 1
 0
 No esta relacionado
@@ -26,7 +26,7 @@ No esta relacionado
 1
 Data/MostrarAnimales2/leon.bmp
 Data/MostrarAnimales2/leon.wav
-Leon
+abajo mouse
 0
 0
 No esta relacionado
@@ -34,7 +34,7 @@ No esta relacionado
 2
 Data/MostrarAnimales2/oveja.jpg
 Data/MostrarAnimales2/leon.wav
-Oveja
+derecha mouse
 1
 0
 No esta relacionado
@@ -42,7 +42,7 @@ No esta relacionado
 3
 Data/MostrarAnimales2/Tero.jpg
 Data/MostrarAnimales2/leon.wav
-Tero
+izquierda mouse
 0
 0
 No esta relacionado
@@ -83,38 +83,6 @@ No esta relacionado
 Data/MostrarAnimales2/Tero.jpg
 Data/MostrarAnimales2/leon.wav
 Tecla_Izquierda
-0
-0
-No esta relacionado
--
-9
-Data/MostrarAnimales2/Tero.jpg
-Data/MostrarAnimales2/leon.wav
-Tecla_f1
-0
-0
-No esta relacionado
--
-10
-Data/MostrarAnimales2/Tero.jpg
-Data/MostrarAnimales2/leon.wav
-Tecla_f2
-0
-0
-No esta relacionado
--
-11
-Data/MostrarAnimales2/Tero.jpg
-Data/MostrarAnimales2/leon.wav
-Tecla_f3
-0
-0
-No esta relacionado
--
-12
-Data/MostrarAnimales2/Tero.jpg
-Data/MostrarAnimales2/leon.wav
-Tecla_f4
 0
 0
 No esta relacionado
