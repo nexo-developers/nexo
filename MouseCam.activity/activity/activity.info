@@ -1,5 +1,5 @@
 [Activity]
-name = mouseCam
+name = MouseCam
 activity_version = 2
 service_name = uy.fing.mouseCam
 exec = execute.sh 
