@@ -3,14 +3,14 @@
 #El orden de los elementos debe ser el mismo en el que se declaran
 #los objetos PUI en su respectivo archivo de configuracion 
 #
-Data/MouseCam/arriba.pat
-Data/MouseCam/abajo.pat
-Data/MouseCam/derecha.pat
-Data/MouseCam/izquierda.pat
-Data/MouseCam/click.pat
+source/Data/MouseCam/arriba.pat
+source/Data/MouseCam/abajo.pat
+source/Data/MouseCam/derecha.pat
+source/Data/MouseCam/izquierda.pat
+source/Data/MouseCam/click.pat
 
-Data/MouseCam/A.pat
-Data/MouseCam/M.pat
-Data/MouseCam/D.pat
-Data/MouseCam/I.pat
-Data/MouseCam/B.pat
+source/Data/MouseCam/A.pat
+source/Data/MouseCam/M.pat
+source/Data/MouseCam/D.pat
+source/Data/MouseCam/I.pat
+source/Data/MouseCam/B.pat

@@ -16,9 +16,10 @@ char *vconf = "";
 int xsize, ysize;
 int thresh = 100;
 int count = 0;
-char *cparam_name = "Data/camera_para.dat";
+char *camara_calibracion = "source/Data/camera_para.dat";//Archivo de calibracion de la camara
 ARParam cparam;
-char *config_name = "Data/MouseCam/mouseCam.patterns";
+char *config_marcadoresAR = "source/Data/MouseCam/mouseCam.patterns"; //Ruta del archivo de configuracion donde se definen los marcadores que se van a utilizar. Este archivo consiste en un conjunto de rutas que apuntan a los .patt correspondientes a cada marcador. El orden en que se declaran los archivos .patt debe ser el mismo orden en el que se declaran los objetos PUI cargados por la funcion Pui::leerConfiguracionObjetosPUI
+char *config_objetosPUI = "source/Data/MouseCam/mouseCam.objetosPUI";
 Pui* pui;
 int cantElementosCargados = 0;
 int idObjetoPUIActual = -1; //id del objeto PUI que esta en pantalla, con este elemento deberia corresponderse la seleccion del usuario para obtener una respuesta exitosa
@@ -125,8 +126,10 @@ static void mainLoop(void)
 
 
 static void init( void ){
-  
-    pui->initPuiConCapturaDeVideo(MODO_SIMPLE,NULL,config_name,"Data/camera_para.dat",vconf,usarAlgoritmoRapido,pui->NORMAL_SPEED_LOOP,2.0);
+
+    //Inicializacion de PUI con soporte para capturar video.
+    //Al indicarse modo de operacion MODO_SIMPLE este buscara detectar los marcadores que se definieron en el archivo de configuracion config_marcadoresAR 
+    pui->initPuiConCapturaDeVideo(MODO_SIMPLE,NULL,config_marcadoresAR,camara_calibracion,vconf,usarAlgoritmoRapido,pui->NORMAL_SPEED_LOOP,2.0);
 
     pui->setARCf(0.5); //Valor entre 0.0 y 1.0 que indica el nivel de confianza al detectar un marcador. Si el nivel de confianza es menor al
 					    //valor escogido entonces el marcador no se considera detectado
@@ -134,7 +137,7 @@ static void init( void ){
 					    //pero tambien cuesta mas realizar una deteccion, especialmente trabajando con resolucion baja
     pui->capStart();
 
-    cantElementosCargados = pui->leerConfiguracionObjetosPUI("Data/MouseCam/mouseCam.objetosPUI",MAX_MARCADORES);
+    cantElementosCargados = pui->leerConfiguracionObjetosPUI(config_objetosPUI,MAX_MARCADORES);
     printf("Se cargaron %d elementos\n",cantElementosCargados);
     if(cantElementosCargados <= 0){
     	fprintf(stderr, "Error cargando objetos PUI, finaliza la ejecucion del programa\n");

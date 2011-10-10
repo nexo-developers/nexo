@@ -16,72 +16,72 @@
 #Datos del elemento de id 1
 
 0
-Data/MostrarAnimales2/coco.bmp
-Data/MostrarAnimales2/coco.wav
+source/Data/MostrarAnimales2/coco.bmp
+source/Data/MostrarAnimales2/coco.wav
 arriba mouse
 1
 0
 No esta relacionado
 -
 1
-Data/MostrarAnimales2/leon.bmp
-Data/MostrarAnimales2/leon.wav
+source/Data/MostrarAnimales2/leon.bmp
+source/Data/MostrarAnimales2/leon.wav
 abajo mouse
 0
 0
 No esta relacionado
 -
 2
-Data/MostrarAnimales2/oveja.jpg
-Data/MostrarAnimales2/leon.wav
+source/Data/MostrarAnimales2/oveja.jpg
+source/Data/MostrarAnimales2/leon.wav
 derecha mouse
 1
 0
 No esta relacionado
 -
 3
-Data/MostrarAnimales2/Tero.jpg
-Data/MostrarAnimales2/leon.wav
+source/Data/MostrarAnimales2/Tero.jpg
+source/Data/MostrarAnimales2/leon.wav
 izquierda mouse
 0
 0
 No esta relacionado
 -
 4
-Data/MostrarAnimales2/Tero.jpg
-Data/MostrarAnimales2/leon.wav
+source/Data/MostrarAnimales2/Tero.jpg
+source/Data/MostrarAnimales2/leon.wav
 Click
 0
 0
 No esta relacionado
 -
 5
-Data/MostrarAnimales2/Tero.jpg
-Data/MostrarAnimales2/leon.wav
+source/Data/MostrarAnimales2/Tero.jpg
+source/Data/MostrarAnimales2/leon.wav
 Tecla_Arriba
 0
 0
 No esta relacionado
 -
 6
-Data/MostrarAnimales2/Tero.jpg
-Data/MostrarAnimales2/leon.wav
+source/Data/MostrarAnimales2/Tero.jpg
+source/Data/MostrarAnimales2/leon.wav
 Tecla_Abajo
 0
 0
 No esta relacionado
 -
 7
-Data/MostrarAnimales2/Tero.jpg
-Data/MostrarAnimales2/leon.wav
+source/Data/MostrarAnimales2/Tero.jpg
+source/Data/MostrarAnimales2/leon.wav
 Tecla_Derecha
 0
 0
 No esta relacionado
 -
 8
-Data/MostrarAnimales2/Tero.jpg
-Data/MostrarAnimales2/leon.wav
+source/Data/MostrarAnimales2/Tero.jpg
+source/Data/MostrarAnimales2/leon.wav
 Tecla_Izquierda
 0
 0
