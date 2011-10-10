@@ -97,13 +97,9 @@ void mouseClick(int button)
 	XEvent event;
 	
 	if(display == NULL)
-	{
-		fprintf(stderr, "Errore nell'apertura del Display !!!\n");
-		exit(EXIT_FAILURE);
-	}
+	   return -1;
 	
 	memset(&event, 0x00, sizeof(event));
-	
 	event.type = ButtonPress;
 	event.xbutton.button = button;
 	event.xbutton.same_screen = True;
@@ -118,7 +114,7 @@ void mouseClick(int button)
 		
 		XQueryPointer(display, event.xbutton.window, &event.xbutton.root, &event.xbutton.subwindow, &event.xbutton.x_root, &event.xbutton.y_root, &event.xbutton.x, &event.xbutton.y, &event.xbutton.state);
 	}
-	
+	//TODO FIX this kind of error handling, it is better return the error to the calling code
 	if(XSendEvent(display, PointerWindow, True, 0xfff, &event) == 0) fprintf(stderr, "Errore nell'invio dell'evento !!!\n");
 	
 	XFlush(display);
@@ -128,11 +124,13 @@ void mouseClick(int button)
 	event.type = ButtonRelease;
 	event.xbutton.state = 0x100;
 	
+	//TODO FIX this kind of error handling, it is better return the error to the calling code
 	if(XSendEvent(display, PointerWindow, True, 0xfff, &event) == 0) fprintf(stderr, "Errore nell'invio dell'evento !!!\n");
 	
 	XFlush(display);
 	
 	XCloseDisplay(display);
+	return 0;
 }
 
 
