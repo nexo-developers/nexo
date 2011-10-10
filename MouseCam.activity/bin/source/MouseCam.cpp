@@ -39,22 +39,49 @@ static void cleanup(void);
 static void mainLoop(void);
 
 static void generateEvent(int idObjetoPUIActual){
-      
+    //TODO do error handling with the return of the event library  
     switch(idObjetoPUIActual) {
-        case 0: createRelativeMouseEvent(0,-10);break;
-        case 1: createRelativeMouseEvent(0,10);break;
-        case 2: createRelativeMouseEvent(10,0);break;
-        case 3: createRelativeMouseEvent(-10,0);break;
-        case 4: mouseClick(Button1);break;
-        case 5: createKeyEvent(TRUE, XStringToKeysym("A"), 0);break;
-        case 6: createKeyEvent(TRUE, XStringToKeysym("B"), 0);break;
-        case 7: createKeyEvent(TRUE, XStringToKeysym("D"), 0);break;
-        case 8: createKeyEvent(TRUE, XStringToKeysym("I"), 0);break;
-        case 9: createKeyEvent(TRUE, XStringToKeysym("F1"), 0);break;
-        case 10: createKeyEvent(TRUE, XStringToKeysym("F2"), 0);break;
+        case 0: 
+		createRelativeMouseEvent(0,-10);
+	break;
+        case 1: 
+		createRelativeMouseEvent(0,10);
+	break;
+        case 2:
+		 createRelativeMouseEvent(10,0);
+	break;
+        case 3: 
+		createRelativeMouseEvent(-10,0);
+	break;
+        case 4: 
+		mouseClick(Button1);
+		sleep(3);
+	break;
+        case 5: 
+		createKeyEvent(TRUE, XStringToKeysym("A"), 0);
+	break;
+        case 6: 
+		createKeyEvent(TRUE, XStringToKeysym("B"), 0);
+	break;
+        case 7: 
+		createKeyEvent(TRUE, XStringToKeysym("D"), 0);
+	break;
+        case 8: 
+		createKeyEvent(TRUE, XStringToKeysym("I"), 0);
+	break;
+        case 9: 
+		createKeyEvent(TRUE, XStringToKeysym("F1"), 0);
+	break;
+        case 10: 
+		createKeyEvent(TRUE, XStringToKeysym("F2"), 0);
+	break;
         //case 10: createKeyEvent(TRUE, XK_F2, 0);break;
-        case 11: createKeyEvent(TRUE, XStringToKeysym("F3"), 0);break;
-        case 12: createKeyEvent(TRUE, XStringToKeysym("F4"), 0);break;
+        case 11: 
+		createKeyEvent(TRUE, XStringToKeysym("F3"), 0);
+	break;
+        case 12: 
+		createKeyEvent(TRUE, XStringToKeysym("F4"), 0);
+	break;
         default:printf("No event defined.\n");
     }
 }

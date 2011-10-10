@@ -90,7 +90,7 @@ int createAbsoluteMouseEvent(int x, int y){
    return 0;
 }
 
-void mouseClick(int button)
+int mouseClick(int button)
 {
 	Display *display = XOpenDisplay(NULL);
 

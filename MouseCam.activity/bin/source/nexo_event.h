@@ -36,7 +36,7 @@ int createRelativeMouseEvent(int delta_x, int delta_y);
 int createAbsoluteMouseEvent(int x, int y);
 
 /* Function to create a mouse click*/
-void mouseClick(int button);
+int mouseClick(int button);
 
 #endif // _NEXOEVENT_H_
 
