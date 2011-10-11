@@ -82,6 +82,16 @@ symlinks:
 	ln -fs $(THISDIR)/$(FC11)/var ../var
 
 
+symlinks_rm:
+	rm -f ../usr
+	rm -f ../bin
+	rm -f ../sbin
+	rm -f ../lib
+	rm -f ../share
+	rm -f ../etc
+	rm -f ../var
+
+
 #to execute even if exist the file
-.PHONY: all clean cross all-cross symlinks help
+.PHONY: all clean cross all-cross symlinks symlinks_rm help
 
