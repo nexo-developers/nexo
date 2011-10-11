@@ -416,7 +416,7 @@ lib/libcv.so.1.0.0
 lib/libcvaux.so.1
 lib/libcv.so.1
 lib/libcvaux.so.1.0.0
-bin/.Makefile.swp
+
 bin/source/Data/camera_para.dat
 bin/source/Data/MouseCam/I.pat
 bin/source/Data/MouseCam/mouseCam.patterns
