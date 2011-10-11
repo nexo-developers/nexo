@@ -1,9 +1,38 @@
 
+help:
+	@echo Makefile que extrae paquetes
+	@echo ============================
+	@echo
+	@echo Instala el paquete seleccionado y las dependencias del mismo
+	@echo para ver la lista de paquetes escribir \"make \" y pulsar la
+	@echo tecla TAB, TAB \(osea TAB dos veces\)
+	@echo
+	@echo ej: make GCC
+	@echo
 
+
+all: help
+
+
+
+TODO=
 CACHE=../cache
 
 
-stdcpp = libstdc++-devel-4.4.0-4.i586.rpm
+################## LIBSTDCPP ############
+#   libstdc++-docs-4.4.0-4.i586.rpm         
+
+LIBSTDCPP = usr/lib/libstdc++.so.6.0.11
+$(LIBSTDCPP):
+	$(MAKE) FILE=libstdc++-4.4.0-4.i586.rpm extract
+
+LIBSTDCPP: $(LIBSTDCPP)
+
+LIBSTDCPP_DEVEL = usr/include/c++/4.4.0/tr1/stdio.h usr/include/c++/4.4.0/tr1/wchar.h
+$(LIBSTDCPP_DEVEL): $(LIBSTDCPP)
+	$(MAKE) FILE=libstdc++-devel-4.4.0-4.i586.rpm extract
+
+LIBSTDCPP_DEVEL: $(LIBSTDCPP_DEVEL)
 
 
 ################## GLIBC files ################
@@ -83,7 +112,7 @@ OPENCV_DEVEL: $(OPENCV_DEV)
 ################# LIBGL & LIBGLU & FREEGLUT #####################
 
 LIBGL = usr/lib/libGL.so.1.2
-$(LIBGL):
+$(LIBGL): $(GLIBC)
 	$(MAKE) FILE=mesa-libGL-7.5-0.14.fc11.i586.rpm extract
 
 LIBGL: $(LIBGL)
@@ -207,7 +236,7 @@ $(NCURSES_BASE):
 
 NCURSES_BASE: $(NCURSES_BASE)
 
-NCURSES_LIBS = lib/libncurses.so.5.7
+NCURSES_LIBS = lib/libncurses.so.5.7 lib/libncursesw.so.5.7 lib/libtinfo.so.5.7
 $(NCURSES_LIBS): $(NCURSES_BASE) $(GLIBC)
 	$(MAKE) FILE=ncurses-libs-5.7-2.20090207.fc11.i586.rpm extract
 
@@ -239,11 +268,12 @@ BASH_: $(BASH_)
 LIBSELINUX = lib/libselinux.so.1
 $(LIBSELINUX):
 	$(MAKE) FILE=libselinux-2.0.80-1.fc11.i586.rpm extract
-	$(MAKE) FILE=libselinux-devel-2.0.80-1.fc11.i586.rpm extract
-	$(MAKE) FILE=libselinux-python-2.0.80-1.fc11.i586.rpm extract
-	$(MAKE) FILE=libselinux-ruby-2.0.80-1.fc11.i586.rpm extract
-	$(MAKE) FILE=libselinux-static-2.0.80-1.fc11.i586.rpm extract
-	$(MAKE) FILE=libselinux-utils-2.0.80-1.fc11.i586.rpm extract
+
+#	$(MAKE) FILE=libselinux-devel-2.0.80-1.fc11.i586.rpm extract
+#	$(MAKE) FILE=libselinux-python-2.0.80-1.fc11.i586.rpm extract
+#	$(MAKE) FILE=libselinux-ruby-2.0.80-1.fc11.i586.rpm extract
+#	$(MAKE) FILE=libselinux-static-2.0.80-1.fc11.i586.rpm extract
+#	$(MAKE) FILE=libselinux-utils-2.0.80-1.fc11.i586.rpm extract
 
 LIBSELINUX: $(LIBSELINUX)
 
@@ -297,6 +327,14 @@ $(PCRE): $(GLIBC)
 
 PCRE: $(PCRE)
 
+#################### LIBPAM ####################
+
+LIBPAM = lib/libpam.so.0.82.1 lib/libpam_misc.so.0.82.0 lib/libpamc.so.0.82.0
+$(LIBPAM): $(GLIBC) $(TODO)
+	$(MAKE) FILE=pam-1.0.91-6.fc11.i586.rpm extract
+
+LIBPAM: $(LIBPAM)
+
 ###################### GREP ###########################
 
 GREP = bin/grep
@@ -308,7 +346,7 @@ GREP: $(GREP)
 ###################### COREUTILS ##########################
 	
 COREUTILS = bin/cat bin/mv bin/cp bin/dd bin/ln bin/echo
-$(COREUTILS): $(LIBSELINUX) $(LIBCAP) $(LIBACL) $(LIBATTR) $(GLIBC)
+$(COREUTILS): $(GREP) $(LIBSELINUX) $(LIBPAM) $(LIBCAP) $(LIBACL) $(LIBATTR) $(GLIBC)
 	$(MAKE) FILE=coreutils-7.2-1.fc11.i586.rpm extract
 
 COREUTILS: $(COREUTILS)
@@ -390,6 +428,18 @@ $(BINUTILS_DEVEL): $(BINUTILS)
 
 BINUTILS_DEVEL: $(BINUTILS_DEVEL)
 
+################## LIBGOMP ##################
+#TODO
+
+#      libgomp-4.4.0-4.i586.rpm              
+
+
+################## CLOOG_PPL  ###################
+#TODO
+
+#      cloog-ppl-0.15-0.8.git1334c.fc11.i586.rpm                                  15-Apr-2009 01:06   89K  RPM Package
+#      cloog-ppl-devel-0.15-0.8.git1334c.fc11.i586.rpm  
+
 ################### LIBGCC #########################
 
 LIBGCC = lib/libgcc_s-4.4.0-20090506.so.1
@@ -407,17 +457,16 @@ $(CPP): $(MPFR) $(GMP)
 CPP: $(CPP)
 
 GCC = usr/bin/gcc
-$(GCC): $(LIBGCC) $(CPP) $(BINUTILS)
+$(GCC): $(LIBGCC) $(CLOOG_PPL) $(LIBGOMP) $(GLIBC_DEVEL) $(CPP) $(BINUTILS) $(GLIBC)
 	$(MAKE) FILE=gcc-4.4.0-4.i586.rpm extract
 
 GCC: $(GCC)
 
 GCC_CPP = usr/bin/g++ usr/bin/c++ usr/libexec/gcc/i586-redhat-linux/4.4.0/cc1plus
-$(GCC_CPP):
+$(GCC_CPP): $(GCC) $(LIBSTDCPP) $(LIBSTDCPP_DEVEL) $(GMP) $(MPFR) $(GLIBC)
 	$(MAKE) FILE=gcc-c++-4.4.0-4.i586.rpm extract
 
 GCC_CPP: $(GCC_CPP)
-
 
 
 #    gcc-objc++-4.4.0-4.i586.rpm                                                07-May-2009 15:34  3.9M  RPM Package
@@ -426,7 +475,7 @@ GCC_CPP: $(GCC_CPP)
 ######################### MAKE ###################3
 
 MAKE_ = usr/bin/make
-$(MAKE_):
+$(MAKE_): $(GLIBC)
 	$(MAKE) FILE=make-3.81-15.fc11.i586.rpm extract
 
 MAKE_: $(MAKE_)
@@ -436,12 +485,12 @@ MAKE_: $(MAKE_)
 ####################### EDITORS #####################3
 
 NANO = usr/bin/nano
-$(NANO):
+$(NANO): $(NCURSES_LIBS) $(GLIBC)
 	$(MAKE) FILE=nano-2.0.6-6.fc11.i586.rpm extract
 
 NANO: $(NANO)
 
-#//TODO VI
+#TODO VI
 
 #############################3
 
@@ -462,14 +511,9 @@ extract:
 	( rpm2cpio $(CACHE)/$(FILE) | cpio -idv )
 
 
-all:
-	@echo extract FILE bla bla
-
-
-
 clean:
 	rm -rf usr bin sbin lib share etc var proc
 
 
 #to execute even if exist the file
-.PHONY: all clean cleanrpm %.fc11.i586.rpm BASH_
+.PHONY: all help clean cleanrpm %.fc11.i586.rpm BASH_
