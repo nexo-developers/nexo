@@ -201,12 +201,23 @@ $(LIBSUGARIZE):
 ################## NCURSES #####################################
 ## TODO // MORE CLEANUP
 
-NCURSES = usr/bin/tset usr/bin/tput usr/bin/reset usr/bin/clear
-$(NCURSES):
-	$(MAKE) FILE=ncurses-5.7-2.20090207.fc11.i586.rpm extract
+NCURSES_BASE = lib/terminfo/v/vt100
+$(NCURSES_BASE):
 	$(MAKE) FILE=ncurses-base-5.7-2.20090207.fc11.i586.rpm extract
-	$(MAKE) FILE=ncurses-devel-5.7-2.20090207.fc11.i586.rpm extract
+
+NCURSES_BASE: $(NCURSES_BASE)
+
+NCURSES_LIBS = lib/libncurses.so.5.7
+$(NCURSES_LIBS): $(NCURSES_BASE) $(GLIBC)
 	$(MAKE) FILE=ncurses-libs-5.7-2.20090207.fc11.i586.rpm extract
+
+NCURSES_LIB: $(NCURSES_LIBS)
+
+
+NCURSES = usr/bin/tset usr/bin/tput usr/bin/reset usr/bin/clear
+$(NCURSES): $(NCURSES_LIB)
+	$(MAKE) FILE=ncurses-5.7-2.20090207.fc11.i586.rpm extract
+	$(MAKE) FILE=ncurses-devel-5.7-2.20090207.fc11.i586.rpm extract
 	$(MAKE) FILE=ncurses-static-5.7-2.20090207.fc11.i586.rpm extract
 	$(MAKE) FILE=ncurses-term-5.7-2.20090207.fc11.i586.rpm extract
 
@@ -217,7 +228,7 @@ NCURSES: $(NCURSES)
 #Y USE BASH_ to not conflict whit BASH entorn variable
 
 BASH_ = bin/bash
-$(BASH_): $(NCURSES) $(GLIBC)
+$(BASH_): $(NCURSES_LIBS) $(GLIBC)
 	$(MAKE) FILE=bash-4.0-6.fc11.i586.rpm extract
 
 BASH_: $(BASH_)
@@ -278,10 +289,26 @@ $(LIBATTR_DEVEL): $(LIBATTR)
 
 LIBATTR_DEVEL: $(LIBATTR_DEVEL)
 
+#################### PCRE ##########################
+
+PCRE = lib/libpcre.so.0.0.1
+$(PCRE): $(GLIBC)
+	$(MAKE) FILE=pcre-7.8-2.fc11.i586.rpm extract
+
+PCRE: $(PCRE)
+
+###################### GREP ###########################
+
+GREP = bin/grep
+$(GREP): $(PCRE) $(GLIBC)
+	$(MAKE) FILE=grep-2.5.3-4.fc11.i586.rpm extract
+
+GREP: $(GREP)
+
 ###################### COREUTILS ##########################
 	
 COREUTILS = bin/cat bin/mv bin/cp bin/dd bin/ln bin/echo
-$(COREUTILS): $(LIBSELINUX) $(LIBCAP) $(LIBACL) $(LIBATTR)
+$(COREUTILS): $(LIBSELINUX) $(LIBCAP) $(LIBACL) $(LIBATTR) $(GLIBC)
 	$(MAKE) FILE=coreutils-7.2-1.fc11.i586.rpm extract
 
 COREUTILS: $(COREUTILS)
