@@ -15,15 +15,25 @@ all: help
 
 
 
+NODEP=
 TODO=
 CACHE=../cache
 
+
+
+################### LIBGCC #########################
+
+LIBGCC = lib/libgcc_s.so.1 lib/libgcc_s-4.4.0-20090506.so.1
+$(LIBGCC): $(NODEP)
+	$(MAKE) FILE=libgcc-4.4.0-4.i586.rpm extract
+
+LIBGCC: $(LIBGCC)
 
 ################## LIBSTDCPP ############
 #   libstdc++-docs-4.4.0-4.i586.rpm         
 
 LIBSTDCPP = usr/lib/libstdc++.so.6.0.11
-$(LIBSTDCPP):
+$(LIBSTDCPP): $(LIBGCC) $(GLIBC)
 	$(MAKE) FILE=libstdc++-4.4.0-4.i586.rpm extract
 
 LIBSTDCPP: $(LIBSTDCPP)
@@ -93,21 +103,70 @@ $(GLIB2_DEVEL): $(GLIB2)
 
 GLIB2_DEVEL: $(GLIB2_DEVEL)
 
+################### LIBX11 #################
+
+LIBX11 = usr/lib/libX11.so.6.2.0 usr/lib/libX11-xcb.so.1.0.0
+$(LIBX11): $(GLIBC)
+	$(MAKE) FILE=libX11-1.2-3.fc11.i586.rpm extract
+
+LIBX11: $(LIBX11)
+
+LIBX11_DEVEL = usr/include/X11/Xlib.h
+$(LIBX11_DEVEL): $(LIBX11) $(LIBXAU_DEVEL) $(LIBXDMCP_DEVEL) $(LIBXCB_DEVEL)
+	$(MAKE) FILE=libX11-devel-1.2-3.fc11.i586.rpm extract
+
+LIBX11_DEVEL: $(LIBX11_DEVEL)
+
+
+################## ATK ######################
+
+ATK = usr/lib/libatk-1.0.so.0.2511.1
+$(ATK): $(TODO)
+	$(MAKE) FILE=atk-1.25.2-2.fc11.i586.rpm extract
+
+ATK: $(ATK)
+
+#      atk-devel-1.25.2-2.fc11.i586.rpm     
+
+################## CAIRO ######################
+
+CAIRO = usr/lib/libcairo.so.2.10800.6
+$(CAIRO):
+	$(MAKE) FILE=cairo-1.8.6-2.fc11.i586.rpm extract
+
+CAIRO: $(CAIRO)
+
+################## FONTCONFIG ######################
+
+#      fontconfig-2.6.99.behdad.20090508-1.fc11.i586.rpm                          09-May-2009 04:17  203K  RPM Package
+#      fontconfig-devel-2.6.99.behdad.20090508-1.fc11.i586.rpm      
+
+################# FREETYPE ########################
+
+#      freetype-2.3.9-3.fc11.i586.rpm                                             15-Apr-2009 22:59  388K  RPM Package
+#      freetype-demos-2.3.9-3.fc11.i586.rpm                                       15-Apr-2009 22:59  273K  RPM Package
+#      freetype-devel-2.3.9-3.fc11.i586.rpm                                       15-Apr-2009 22:59  405K  RPM Package
+#      freetype1-1.4-0.7.pre.fc11.i586.rpm                                        11-Mar-2009 04:47  349K  RPM Package
+#      freetype1-devel-1.4-0.7.pre.fc11.i586.rpm                                  11-Mar-2009 04:47   40K  RPM Package
+#      freetype1-utils-1.4-0.7.pre.fc11.i586.rpm   
+
 ################## OPENCV  #############################
 
 OPENCV = usr/lib/libcv.so.1.0.0      usr/lib/libcvaux.so.1.0.0    \
          usr/lib/libcxcore.so.1.0.0  usr/lib/libhighgui.so.1.0.0  \
          usr/lib/libml.so.1.0.0
-$(OPENCV):
+$(OPENCV): $(CAIRO) $(ATK) $(FONTCONFIG) $(FREETYPE) $(LIBGCC) $(GLIBC)
 	$(MAKE) FILE=opencv-1.0.0-15.fc11.i586.rpm extract
 
 OPENCV: $(OPENCV)
 
-OPENCV_DEVEL = usr/include/opencv/cv.h
+OPENCV_DEVEL = usr/include/opencv/cv.h usr/include/opencv/cvaux.h   \
+               usr/include/opencv/highgui.h usr/include/opencv/cxcore.h \
+               usr/include/opencv/cvtypes.h
 $(OPENCV_DEVEL): $(OPENCV)
 	$(MAKE) FILE=opencv-devel-1.0.0-15.fc11.i586.rpm extract
 
-OPENCV_DEVEL: $(OPENCV_DEV)
+OPENCV_DEVEL: $(OPENCV_DEVEL)
 
 ################# LIBGL & LIBGLU & FREEGLUT #####################
 
@@ -118,7 +177,7 @@ $(LIBGL): $(GLIBC)
 LIBGL: $(LIBGL)
 
 LIBGL_DEVEL = usr/include/GL/gl.h
-$(LIBGL_DEVEL): $(LIBGL)
+$(LIBGL_DEVEL): $(LIBGL) $(LIBX11_DEVEL)
 	$(MAKE) FILE=mesa-libGL-devel-7.5-0.14.fc11.i586.rpm extract
 
 LIBGL_DEVEL: $(LIBGL_DEVEL)
@@ -439,14 +498,6 @@ BINUTILS_DEVEL: $(BINUTILS_DEVEL)
 
 #      cloog-ppl-0.15-0.8.git1334c.fc11.i586.rpm                                  15-Apr-2009 01:06   89K  RPM Package
 #      cloog-ppl-devel-0.15-0.8.git1334c.fc11.i586.rpm  
-
-################### LIBGCC #########################
-
-LIBGCC = lib/libgcc_s-4.4.0-20090506.so.1
-$(LIBGCC):
-	$(MAKE) FILE=libgcc-4.4.0-4.i586.rpm extract
-
-LIBGCC: $(LIBGCC)
 
 ################### CPP GCC GCC-C++ ##########################
 

@@ -43,7 +43,7 @@ chroot: symlinks
 	$(MAKE) -C $(FC11) BASH_
 	$(MAKE) -C $(FC11) COREUTILS
 	$(MAKE) -C $(FC11) NANO
-	# NEEDED BY ARTOOLKIT
+	# NEEDED TO COMPILE ARTOOLKIT
 	$(MAKE) -C $(FC11) KERNEL_HEADERS
 	$(MAKE) -C $(FC11) GCC
 	$(MAKE) -C $(FC11) MAKE_
@@ -53,11 +53,12 @@ chroot: symlinks
 	$(MAKE) -C $(FC11) LIBXML2_DEVEL
 	# NEEDED BY PUI
 	$(MAKE) -C $(FC11) GCC_CPP
+	$(MAKE) -C $(FC11) OPENCV_DEVEL
 	# NEEDED BY EXAMPLES
 	$(MAKE) -C $(FC11) SDL_DEVEL
 	$(MAKE) -C $(FC11) SDLGFX_DEVEL
 	$(MAKE) -C $(FC11) SDLMIXER_DEVEL
-	(cd .. ; sudo chroot .)
+	(cd .. ; sudo chroot . )
 
 
 

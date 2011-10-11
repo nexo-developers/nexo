@@ -6,11 +6,12 @@ FC11_REPO = archives.fedoraproject.org/pub/archive/fedora/linux/releases/11/Ever
 
 
 $(FC11_REPO)/%.rpm:
-	wget $@
+	rm -f temp.rpm
+	wget $@ -O temp.rpm
 
 
 %.i586.rpm: $(FC11_REPO)/%.i586.rpm
-	
+	mv temp.rpm $@
 
 
 
