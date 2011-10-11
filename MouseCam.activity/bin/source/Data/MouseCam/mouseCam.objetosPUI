@@ -58,7 +58,7 @@ No esta relacionado
 5
 source/Data/MostrarAnimales2/Tero.jpg
 source/Data/MostrarAnimales2/leon.wav
-Tecla_Arriba
+Tecla_A
 0
 0
 No esta relacionado
@@ -66,7 +66,7 @@ No esta relacionado
 6
 source/Data/MostrarAnimales2/Tero.jpg
 source/Data/MostrarAnimales2/leon.wav
-Tecla_Abajo
+Tecla_B
 0
 0
 No esta relacionado
@@ -74,7 +74,7 @@ No esta relacionado
 7
 source/Data/MostrarAnimales2/Tero.jpg
 source/Data/MostrarAnimales2/leon.wav
-Tecla_Derecha
+Tecla_D
 0
 0
 No esta relacionado
@@ -82,7 +82,23 @@ No esta relacionado
 8
 source/Data/MostrarAnimales2/Tero.jpg
 source/Data/MostrarAnimales2/leon.wav
-Tecla_Izquierda
+Tecla_I
+0
+0
+No esta relacionado
+-
+9
+source/Data/MostrarAnimales2/Tero.jpg
+source/Data/MostrarAnimales2/leon.wav
+Tecla_E
+0
+0
+No esta relacionado
+-
+10
+source/Data/MostrarAnimales2/Tero.jpg
+source/Data/MostrarAnimales2/leon.wav
+Tecla_M
 0
 0
 No esta relacionado

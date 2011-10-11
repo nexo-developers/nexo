@@ -70,17 +70,11 @@ static void generateEvent(int idObjetoPUIActual){
 		createKeyEvent(TRUE, XStringToKeysym("I"), 0);
 	break;
         case 9: 
-		createKeyEvent(TRUE, XStringToKeysym("F1"), 0);
+		createKeyEvent(TRUE, XStringToKeysym("E"), 0);
 	break;
+	
         case 10: 
-		createKeyEvent(TRUE, XStringToKeysym("F2"), 0);
-	break;
-        //case 10: createKeyEvent(TRUE, XK_F2, 0);break;
-        case 11: 
-		createKeyEvent(TRUE, XStringToKeysym("F3"), 0);
-	break;
-        case 12: 
-		createKeyEvent(TRUE, XStringToKeysym("F4"), 0);
+		createKeyEvent(TRUE, XStringToKeysym("M"), 0);
 	break;
         default:printf("No event defined.\n");
     }
