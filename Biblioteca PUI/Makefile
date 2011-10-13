@@ -39,10 +39,15 @@ OBJS =
 HEADDERS =
 
 all: Pui.o Funciones.o cvUtilities.o lib_artoolkit
+	
 #(XO) all: Pui.o TimeUtils.o OpenCVCamera.o Funciones.o UtilidadesSDL.o cvUtilities.o Utilidades.o ProcesamientoImagenRangosCV ProcesamientoImagenRangosMemoria ProcesamientoImagenRangosMemoriaEstatica findCirclesTestParaCalibracion histogramasEnROI
 
 Pui.o: $(SRC_DIR)/Pui.cpp cvUtilities.o Funciones.o TimeUtils.o
+ifdef GLUT_HABILITADO
 	g++ -c $(CFLAG) -DGLUT_HABILITADO=-1 $(SRC_DIR)/Pui.cpp
+else 
+	g++ -c $(CFLAG) $(SRC_DIR)/Pui.cpp
+endif
 
 TimeUtils.o: $(SRC_DIR)/TimeUtils.cpp
 	g++ -c $(CFLAG) $(SRC_DIR)/TimeUtils.cpp

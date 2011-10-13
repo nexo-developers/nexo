@@ -164,16 +164,30 @@ $(SDL_DEVEL): $(SDL)
 SDL_DEVEL: $(SDL_DEVEL)
 
 SDLGFX = usr/lib/libSDL_gfx.so.0.0.17
-$(SDLGFX):
+$(SDLGFX): $(SDL)
 	$(MAKE) FILE=SDL_gfx-2.0.17-2.fc11.i586.rpm extract
 
 SDLGFX: $(SDLGFX)
 
 SDLGFX_DEVEL = usr/include/SDL/SDL_gfxPrimitives.h
-$(SDLGFX_DEVEL): $(SDLGFX) $(SDL)
+$(SDLGFX_DEVEL): $(SDLGFX) $(SDL_DEVEL)
 	$(MAKE) FILE=SDL_gfx-devel-2.0.17-2.fc11.i586.rpm extract
 
 SDLGFX_DEVEL: $(SDLGFX_DEVEL)
+
+
+SDLMIXER = usr/lib/libSDL_mixer-1.2.so.0.2.6
+$(SDLMIXER): $(SDL)
+	$(MAKE) FILE=SDL_mixer-1.2.8-12.fc11.i586.rpm extract
+
+SDLMIXER: $(SDLMIXER)
+
+SDLMIXER_DEVEL = usr/include/SDL/SDL_mixer.h
+$(SDLMIXER_DEVEL): $(SDLMIXER) $(SDL_DEVEL)
+	$(MAKE) FILE=SDL_mixer-devel-1.2.8-12.fc11.i586.rpm extract
+
+SDLMIXER_DEVEL: $(SDLMIXER_DEVEL)
+
 
 ###################  LIBSUGARIZE  ################################
 
@@ -320,7 +334,7 @@ $(GMP_DEVEL):
 #      gmpc-devel-0.16.1-2.fc11.i586.rpm          
 
 
-################## ZLIZ ##########################
+################## ZLIB ##########################
 
 ZLIB = lib/libz.so.1.2.3
 $(ZLIB):
@@ -349,7 +363,7 @@ $(BINUTILS_DEVEL): $(BINUTILS)
 
 BINUTILS_DEVEL: $(BINUTILS_DEVEL)
 
-######### LIBGCC ##########
+################### LIBGCC #########################
 
 LIBGCC = lib/libgcc_s-4.4.0-20090506.so.1
 $(LIBGCC):
@@ -371,8 +385,14 @@ $(GCC): $(LIBGCC) $(CPP) $(BINUTILS)
 
 GCC: $(GCC)
 
+GCC_CPP = usr/bin/g++ usr/bin/c++ usr/libexec/gcc/i586-redhat-linux/4.4.0/cc1plus
+$(GCC_CPP):
+	$(MAKE) FILE=gcc-c++-4.4.0-4.i586.rpm extract
 
-#gcc-c++-4.4.0-4.i586.rpm   
+GCC_CPP: $(GCC_CPP)
+
+
+
 #    gcc-objc++-4.4.0-4.i586.rpm                                                07-May-2009 15:34  3.9M  RPM Package
 #      gcc-objc-4.4.0-4.i586.rpm     
 
@@ -386,7 +406,7 @@ MAKE_: $(MAKE_)
 
 
 
-#######################3 EDITORS #####################3
+####################### EDITORS #####################3
 
 NANO = usr/bin/nano
 $(NANO):
