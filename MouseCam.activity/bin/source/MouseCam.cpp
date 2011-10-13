@@ -37,7 +37,11 @@ ElementoEnPantalla elementosEnPantalla[MAX_MARCADORES];	//El indice el elemento 
 static void init(void);
 static void cleanup(void);
 static void mainLoop(void);
-
+// TODO acá se introdujo a prepo unos sleeps para solucionar problemas de rebotes que se daban en tortuga, el tema es que MouseCam envía rafagas de eventos
+// que tortuga los almacena en el buffer del teclado, lo que es muy difícil de filtrar desde tortuga. Sería bueno buscar la forma de que esto se pueda
+// configurar desde la pantalla de configuración.
+// Otra cosa que descubrí es el hecho de los falsos positivos, dos por tres ocurren y son muy molestos, hay que implementar acá algún mecanismo de 
+// eliminación de rebotes
 static void generateEvent(int idObjetoPUIActual){
     //TODO do error handling with the return of the event library  
     switch(idObjetoPUIActual) {
@@ -59,22 +63,28 @@ static void generateEvent(int idObjetoPUIActual){
 	break;
         case 5: 
 		createKeyEvent(TRUE, XStringToKeysym("A"), 0);
+		sleep(2);
 	break;
         case 6: 
 		createKeyEvent(TRUE, XStringToKeysym("B"), 0);
+		sleep(2);
 	break;
         case 7: 
 		createKeyEvent(TRUE, XStringToKeysym("D"), 0);
+		sleep(6);
 	break;
         case 8: 
 		createKeyEvent(TRUE, XStringToKeysym("I"), 0);
+		sleep(6);
 	break;
         case 9: 
 		createKeyEvent(TRUE, XStringToKeysym("E"), 0);
+		sleep(2);
 	break;
 	
         case 10: 
 		createKeyEvent(TRUE, XStringToKeysym("M"), 0);
+		sleep(2);
 	break;
         default:printf("No event defined.\n");
     }
