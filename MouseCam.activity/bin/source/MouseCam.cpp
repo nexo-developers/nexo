@@ -181,6 +181,8 @@ static void init( void ){
     }
     pui->imprimirPropiedadesObjetosPUI();
 	createKeyEvent(TRUE, XStringToKeysym("F3"), 0);
+
+    pui->habilitarHistorico(true,CANT_HISTORIA,0);
 }
 
 /* cleanup function called when program exits */

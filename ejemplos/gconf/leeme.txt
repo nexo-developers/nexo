@@ -1,0 +1,2 @@
+El programa permanecerá corriendo desplegando en pantalla los valores que se le seten a la variable /apps/mousecam/MyVal
+Para modificarla se puede utilizar gconf-editor (ejecutar gconf-editor en terminal para levantarlo)
