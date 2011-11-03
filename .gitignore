@@ -31,8 +31,8 @@ xobundle/fc11/*
 *.d
  
 # ignorar binarios y autogenerados de mouseCam
-mouseCam.activity/bin/mouse
-mouseCam.activity/MANIFEST
+MouseCam.activity/bin/mouse
+MouseCam.activity/MANIFEST
 
 # links pa el chroot
 usr
