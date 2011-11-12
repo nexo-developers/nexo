@@ -5,6 +5,8 @@
  * @author Sebastián Marichal
  * 		   sebastian_marichal@hotmail.com
  * 		   sebarocker@gmail.com
+ * @author Marcela Bonilla
+ *		   bonilla.marce@gmail.com
  *
  * Universidad de la República, Montevideo , Uruguay
  */
@@ -2161,51 +2163,51 @@ RangosColorApuntador Pui::getResultadosRangosColor(){
 
 
 void Pui::setHminApuntador(int hMin){
-
+	this->propiedades.resultado_rangos_color.hmin = hMin;
 }
 
 int Pui::getHminApuntador(){
-
+	return this->propiedades.resultado_rangos_color.hmin;
 }
 
 void Pui::setHmaxApuntador(int hMax){
-
+	this->propiedades.resultado_rangos_color.hmax = hMax;
 }
 
 int Pui::getHmaxApuntador(){
-
+	return this->propiedades.resultado_rangos_color.hmax;
 }
 
-void Pui::setSminApuntador(int vMin){
-
+void Pui::setSminApuntador(int sMin){
+	this->propiedades.resultado_rangos_color.smin= sMin;
 }
 
 int Pui::getSminApuntador(){
-
+	return this->propiedades.resultado_rangos_color.smin;
 }
 
-void Pui::setSmaxApuntador(int vMax){
-
+void Pui::setSmaxApuntador(int sMax){
+	this->propiedades.resultado_rangos_color.smax = sMax;
 }
 
 int Pui::getSmaxApuntador(){
-
+	return this->propiedades.resultado_rangos_color.smax;
 }
 
 void Pui::setVminApuntador(int vMin){
-
+	this->propiedades.resultado_rangos_color.vmin = vMin;
 }
 
 int Pui::getVminApuntador(){
-
+	return this->propiedades.resultado_rangos_color.vmin;
 }
 
 void Pui::setVmaxApuntador(int vMax){
-
+	this->propiedades.resultado_rangos_color.vmax = vMax;
 }
 
 int Pui::getVmaxApuntador(){
-
+	return this->propiedades.resultado_rangos_color.vmax;
 }
 
 /**

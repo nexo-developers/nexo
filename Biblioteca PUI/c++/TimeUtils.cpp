@@ -5,6 +5,8 @@
  * @author Sebastián Marichal
  * 		   sebastian_marichal@hotmail.com
  * 		   sebarocker@gmail.com
+ * @author Marcela Bonilla
+ *		   bonilla.marce@gmail.com
  *
  * Universidad de la República, Montevideo , Uruguay
  */
