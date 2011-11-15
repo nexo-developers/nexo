@@ -1,16 +1,16 @@
 #include "Pui.h"
 #include "nexo_event.h"
 #include <unistd.h>
+#include <pthread.h>
+#include <gconf/gconf-client.h>
+#include <glib.h>
+#include <gtk/gtk.h>
 //#include <AR/gsub.h>
 //#include <GL/gl.h>
 //#include <GL/glut.h>
 #define MAX_MARCADORES 30
 #define CANT_HISTORIA 2
 
-int mostrarVideo = 0;
-int mostrarRadar = 0;
-int mostrarImagenDebug = 1;
-int debugImg = 0; //Parametro para hayObjetoColor. Si se le pasa 1 y se le pasa una ventana entonces va reproduciendo el ROI. Sino crea una ventana nueva pero detiene la aplicacion hasta tocar una tecla
 int usarAlgoritmoRapido = 1;
 char *vconf = "";
 int xsize, ysize;
@@ -26,6 +26,13 @@ int idObjetoPUIActual = -1; //id del objeto PUI que esta en pantalla, con este e
 int idObjetoDetectado = -1; //id del objeto PUI que se ha seleccionado
 int anchoPantalla = 30;
 int altoPantalla = 24;
+
+unsigned int postKeyEventWait = 0;// espera post envio de un evento
+
+// Propiedades para gconf
+char *key = "/apps/mousecam/postKeyEventWait";
+char *monitor = "/apps/mousecam";
+
 typedef struct {
 	int idImagenSDL;
 }ElementoEnPantalla;
@@ -37,6 +44,10 @@ ElementoEnPantalla elementosEnPantalla[MAX_MARCADORES];	//El indice el elemento 
 static void init(void);
 static void cleanup(void);
 static void mainLoop(void);
+void setKeys(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data);
+void* threadPUI(void *ptr);
+void* listenerGconf(void *ptr);
+
 // TODO acá se introdujo a prepo unos sleeps para solucionar problemas de rebotes que se daban en tortuga, el tema es que MouseCam envía rafagas de eventos
 // que tortuga los almacena en el buffer del teclado, lo que es muy difícil de filtrar desde tortuga. Sería bueno buscar la forma de que esto se pueda
 // configurar desde la pantalla de configuración.
@@ -45,48 +56,37 @@ static void mainLoop(void);
 static void generateEvent(int idObjetoPUIActual){
     //TODO do error handling with the return of the event library  
     switch(idObjetoPUIActual) {
-        case 0: 
+	case 0:
 		createRelativeMouseEvent(0,-10);
-	break;
-        case 1: 
+		break;
+	case 1:
 		createRelativeMouseEvent(0,10);
-	break;
-        case 2:
-		 createRelativeMouseEvent(10,0);
-	break;
-        case 3: 
+		break;
+	case 2:
+		createRelativeMouseEvent(10,0);
+		break;
+	case 3:
 		createRelativeMouseEvent(-10,0);
-	break;
-        case 4: 
+		break;
+	case 4:
 		mouseClick(Button1);
 		sleep(3);
-	break;
-        case 5: 
+		break;
+	case 5:
 		createKeyEvent(TRUE, XStringToKeysym("A"), 0);
-		sleep(2);
-	break;
-        case 6: 
+	case 6:
 		createKeyEvent(TRUE, XStringToKeysym("B"), 0);
-		sleep(2);
-	break;
-        case 7: 
+	case 7:
 		createKeyEvent(TRUE, XStringToKeysym("D"), 0);
-		sleep(6);
-	break;
-        case 8: 
+	case 8:
 		createKeyEvent(TRUE, XStringToKeysym("I"), 0);
-		sleep(6);
-	break;
-        case 9: 
+	case 9:
 		createKeyEvent(TRUE, XStringToKeysym("E"), 0);
-		sleep(2);
-	break;
-	
-        case 10: 
+	case 10:
 		createKeyEvent(TRUE, XStringToKeysym("M"), 0);
-		sleep(2);
-	break;
-        default:printf("No event defined.\n");
+		sleep(postKeyEventWait);
+		break;
+	default:printf("No event defined.\n");
     }
 }
 
@@ -94,65 +94,50 @@ int main(int argc, char **argv){
     double frameInt = 0;
     pui = new Pui();
     init();
-    printf("main loop\n");
-    int err_deteccion;
 
-    while (true) {
-        //arVideoInqFramerateInterval(&frameInt);
-        //usleep((unsigned long)frameInt);
-        //printf("el frameInt es:%e", frameInt); 
-        if(!pui->capturarImagenAR()){
-        	
-        }else{
-        	err_deteccion = pui->detectarMarcadoresSimple();
-            if(err_deteccion==DETECCION_CORRECTA){
-	            idObjetoDetectado = pui->getIdMarcadorSimpleDetectado();
-	            if(idObjetoDetectado!=-1){
-		            printf("MARCADOR %s DETECTADO\n",pui->getNombreObjetoPUI(idObjetoDetectado)==NULL?"--":pui->getNombreObjetoPUI(idObjetoDetectado));
-		            idObjetoPUIActual = idObjetoDetectado;
-		            generateEvent(idObjetoPUIActual);
-	            }
-	        }else if(err_deteccion==ERROR_NINGUN_MARCADOR_DETECTADO){
-		        //printf("No reconocio ningun marcador.\n");
-	        }else if(err_deteccion==ERROR_DETECTANDO_MARCADORES){
-		        printf("Error detectando marcadores\n");
-	        }else if(err_deteccion==ERROR_IMAGEN_NULL){
-		        printf("Error! imagen es NULL\n");
-	        }else{
-		        printf("err_deteccion= %d \n",err_deteccion);
-	        }
-        }
-    }
+    pthread_t hilo0, hilo1;
+	int id0=0, id1=1;
+
+	pthread_create(&hilo0, NULL, &threadPUI, (void *) &id0);
+	pthread_create(&hilo1, NULL, &listenerGconf, (void *) &id1);
+
+	pthread_join(hilo0, NULL);
+	pthread_join(hilo1, NULL);
     return (0);
 }
 
-
+void* threadPUI(void *ptr) {
+	while (true) {
+		mainLoop();
+	}
+}
 /* main loop */
 static void mainLoop(void)
 {
-    int err_deteccion;
+	int err_deteccion;
+	//usleep((unsigned long)frameInt);
+	//printf("el frameInt es:%e", frameInt);
+	if(!pui->capturarImagenAR()){
 
-    if(!pui->capturarImagenAR()){
-    	return;
-    }else{
-    	err_deteccion = pui->detectarMarcadoresSimple();
-	    if(err_deteccion==DETECCION_CORRECTA){
-	        idObjetoDetectado = pui->getIdMarcadorSimpleDetectado();
-	        if(idObjetoDetectado!=-1){
-		        printf("MARCADOR %s DETECTADO\n",pui->getNombreObjetoPUI(idObjetoDetectado)==NULL?"--":pui->getNombreObjetoPUI(idObjetoDetectado));
-		        idObjetoPUIActual = idObjetoDetectado;
-		        generateEvent(idObjetoPUIActual);
-	        }
-	    }else if(err_deteccion==ERROR_NINGUN_MARCADOR_DETECTADO){
-		    //printf("No reconocio ningun marcador.\n");
-	    }else if(err_deteccion==ERROR_DETECTANDO_MARCADORES){
-		    printf("Error detectando marcadores\n");
-	    }else if(err_deteccion==ERROR_IMAGEN_NULL){
-		    printf("Error! imagen es NULL\n");
-	    }else{
-		    printf("err_deteccion= %d \n",err_deteccion);
-	    }
-    }
+	}else{
+		err_deteccion = pui->detectarMarcadoresSimple();
+		if(err_deteccion==DETECCION_CORRECTA){
+			idObjetoDetectado = pui->getIdMarcadorSimpleDetectado();
+			if(idObjetoDetectado!=-1){
+				printf("MARCADOR %s DETECTADO\n",pui->getNombreObjetoPUI(idObjetoDetectado)==NULL?"--":pui->getNombreObjetoPUI(idObjetoDetectado));
+				idObjetoPUIActual = idObjetoDetectado;
+				generateEvent(idObjetoPUIActual);
+			}
+		}else if(err_deteccion==ERROR_NINGUN_MARCADOR_DETECTADO){
+			//printf("No reconocio ningun marcador.\n");
+		}else if(err_deteccion==ERROR_DETECTANDO_MARCADORES){
+			printf("Error detectando marcadores\n");
+		}else if(err_deteccion==ERROR_IMAGEN_NULL){
+			printf("Error! imagen es NULL\n");
+		}else{
+			printf("err_deteccion= %d \n",err_deteccion);
+		}
+	}
 }
 
 
@@ -189,5 +174,37 @@ static void init( void ){
 static void cleanup(void)
 {
     pui->finish();
+}
+
+void* listenerGconf(void *ptr)
+{
+    GConfClient *client;
+
+	//char *key = "/apps/mousecam/MyVal";
+	//char *monitor = "/apps/mousecam";
+	int valor;
+	int clientId;
+
+	client = gconf_client_get_default();
+	gconf_client_add_dir(client, monitor, GCONF_CLIENT_PRELOAD_NONE, NULL);
+
+	gconf_client_notify_add(client,
+			  	  	  	  	  key,
+	                          setKeys,
+	                          NULL,
+	                          NULL,
+	                          NULL);
+
+	//valor =  gconf_client_get_int(client, key, NULL);
+    //printf("(%d) listenerGconf valor %d\n",id,valor);
+
+
+	gtk_main();
+}
+
+void setKeys(GConfClient *client, guint cnxn_id, GConfEntry *entry,
+		gpointer user_data) {
+	printf("Callback, nuevo valor: %d\n", gconf_value_get_int(gconf_entry_get_value(entry)));
+	postKeyEventWait = gconf_client_get_int(client, key, NULL);
 }
 
