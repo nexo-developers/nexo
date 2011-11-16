@@ -74,14 +74,24 @@ static void generateEvent(int idObjetoPUIActual){
 		break;
 	case 5:
 		createKeyEvent(TRUE, XStringToKeysym("A"), 0);
+        sleep(postKeyEventWait);
+        break;
 	case 6:
 		createKeyEvent(TRUE, XStringToKeysym("B"), 0);
+        sleep(postKeyEventWait);
+        break;
 	case 7:
 		createKeyEvent(TRUE, XStringToKeysym("D"), 0);
+        sleep(postKeyEventWait);
+        break;
 	case 8:
 		createKeyEvent(TRUE, XStringToKeysym("I"), 0);
+        sleep(postKeyEventWait);
+        break;
 	case 9:
 		createKeyEvent(TRUE, XStringToKeysym("E"), 0);
+        sleep(postKeyEventWait);
+        break;
 	case 10:
 		createKeyEvent(TRUE, XStringToKeysym("M"), 0);
 		sleep(postKeyEventWait);
