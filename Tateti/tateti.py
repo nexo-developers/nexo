@@ -5,7 +5,7 @@ log = logging.getLogger('TatetiMesh run')
 log.setLevel(logging.DEBUG)
 
 class Tateti (object):
-    # Velocidad de Barrido del tablero
+    # Velocidad de Barrido del tablero (msec per pixel)
     SPEED = 250
     # Constante de variacion de la velociadad de barrido
     SPEED_STEP = 50
