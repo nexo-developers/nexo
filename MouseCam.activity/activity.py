@@ -38,6 +38,11 @@ class MouseCamActivity(activity.Activity):
         #persist here in order to notify gconf
         print(adj.value)
         print("pase")
+    
+    def cb_cleanup(self, arg):
+        #aca hay que usar algun hacking para matar el proceso o mandar un mensaje a mousecam para que se cierre
+        os.system("pkill MouseCam")
+        
 
     # makes the sample window
 
@@ -49,6 +54,8 @@ class MouseCamActivity(activity.Activity):
         # make the share option insensitive
         self.max_participants = 1
 
+        #register destroy callback
+        self.connect("destroy", self.cb_cleanup)
         # toolbar with the new toolbar redesign
         toolbar_box = ToolbarBox()
 
@@ -127,5 +134,5 @@ class MouseCamActivity(activity.Activity):
         menu = gtk.Menu()
   
         self.window.show()
-        os.system("/bin/execute.sh &")
+        os.system("bin/execute.sh &")
 
