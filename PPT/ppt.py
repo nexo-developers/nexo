@@ -14,7 +14,7 @@ class PPT (object):
     BACK_COLOR = GRAY
     SELECTION_COLOR = GRAY
     
-    # Color de los simboles X y O
+    # Color de los simbolos X y O
     CROSS_COLOR = BLUE
     CIRCLE_COLOR = RED
     
@@ -53,6 +53,13 @@ class PPT (object):
         self.imgO = pygame.image.load("img/O.png").convert_alpha()
         self.imgO.set_colorkey((255,255,255))
         
+        self.imgRoca = pygame.image.load("img/piedra.png").convert_alpha()
+        self.imgRoca.set_colorkey((255,255,255))
+        self.imgPapel = pygame.image.load("img/papel.png").convert_alpha()
+        self.imgPapel.set_colorkey((255,255,255))
+        self.imgTijera = pygame.image.load("img/tijera.png").convert_alpha()
+        self.imgTijera.set_colorkey((255,255,255))
+        
         self.screen = screen
         self.screen.fill(self.BACK_COLOR)
         
@@ -90,18 +97,18 @@ class PPT (object):
         xRect.midtop = infoPanel.center
         xRect.top += 10
         
-        imgO = pygame.transform.smoothscale(self.imgO, (xRect.height, xRect.height))
-        self.screen.blit(imgO, oRect.topleft)
-        
-        imgX = pygame.transform.smoothscale(self.imgX, (xRect.height, xRect.height))
-        self.screen.blit(imgX, xRect.topleft)
+#        imgO = pygame.transform.smoothscale(self.imgO, (xRect.height, xRect.height))
+#        self.screen.blit(imgO, oRect.topleft)
+#        
+#        imgX = pygame.transform.smoothscale(self.imgX, (xRect.height, xRect.height))
+#        self.screen.blit(imgX, xRect.topleft)
         
         self.printWins(oRect, xRect, oWins, xWins)
         pygame.display.update()
         
     def printWins(self, oRect, xRect, oWins, xWins):    
-        oTxt = self.fontMgr.render("x "+str(oWins), 1, (0,0,0), (255, 255, 255))
-        xTxt = self.fontMgr.render("x "+str(xWins), 1, (0,0,0), (255, 255, 255))
+        oTxt = self.fontMgr.render("   Yo: "+str(oWins), 1, (0,0,0), (255, 255, 255))
+        xTxt = self.fontMgr.render("Amigo: "+str(xWins), 1, (0,0,0), (255, 255, 255))
         rect = oTxt.get_rect()
         rect.midright = oRect.midright
         rect.bottom += 5
@@ -136,34 +143,28 @@ class PPT (object):
         else:
             return self.perdi
     
-    def printText(self, text):
+    def printText(self, text, yOffset=0):
         txt = self.fontMgr.render(text + "!!!", 1, (0,0,0), (240,240,255))
         rect = txt.get_rect()
-        rect.center = (self.board[0]/2, self.board[1]/2)
+        rect.center = (self.board[0]/2, self.board[1]/2 + yOffset)
         self.screen.blit(txt,rect)
         pygame.display.update()
         
-    def playMe(self, jugador):
-        # Capturamos un clic
-        while True:
-            for ev in pygame.event.get():
-                if ev.type == pygame.KEYDOWN:
-                    log.debug("PRESIONO TECLA")
-                    #if ev.key == pygame.K_PRINT:
-                    if ev.key == pygame.K_r:			       
-                        log.debug("PRESIONO Roca")			
-                        self.registroJugada(self.Roca, jugador)
-                        return self.Roca
-                    elif ev.key == pygame.K_p:                   
-                        log.debug("PRESIONO Papel")            
-                        self.registroJugada(self.Papel, jugador)
-                        return self.Papel
-                    elif ev.key == pygame.K_t:                   
-                        log.debug("PRESIONO tijera")            
-                        self.registroJugada(self.Tijera, jugador)
-                        return self.Tijera
-                    elif ev.key == pygame.K_DOWN:
-                        log.debug("PRESIONO ABAJO")
-                        self.speedDown()
-                    else:
-                        log.debug("Tecla INESPERADA: " + pygame.key.name(ev.key))
+    def printJugadas(self):        
+        if self.values[self.Yo]<>self.Nada:        
+            posYo = (50,150)
+            if self.values[self.Yo] == self.Roca:
+                self.screen.blit(self.imgRoca, posYo)
+            elif self.values[self.Yo] == self.Papel:
+                self.screen.blit(self.imgPapel, posYo)
+            elif self.values[self.Yo] == self.Tijera:
+                self.screen.blit(self.imgTijera, posYo)
+        
+            posOp = (300,150)
+            if self.values[self.Oponente] == self.Roca:                
+                self.screen.blit(pygame.transform.flip(self.imgRoca, True, False), posOp)
+            elif self.values[self.Oponente] == self.Papel:
+                self.screen.blit(pygame.transform.flip(self.imgPapel, True, False), posOp)
+            elif self.values[self.Oponente] == self.Tijera:
+                self.screen.blit(pygame.transform.flip(self.imgTijera, True, False), posOp)
+            
