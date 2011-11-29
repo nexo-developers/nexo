@@ -16,6 +16,7 @@
 
 """HelloWorld Activity: A case study for developing an activity."""
 
+import gconf
 import gtk
 import logging
 import os
@@ -35,7 +36,8 @@ class MouseCamActivity(activity.Activity):
 
     def cb_change_event(self, adj):
         #manage here the change in the slide bar ;)
-        #persist here in order to notify gconf
+        #persist here in order to notify gconfself.
+        self.client.set_float('/apps/mousecam/adj', adj.value)
         print(adj.value)
         print("pase")
     
@@ -47,6 +49,7 @@ class MouseCamActivity(activity.Activity):
     # makes the sample window
 
     def __init__(self, handle):
+        self.client = gconf.client_get_default()
         """Set up the MouseCam activity."""
         activity.Activity.__init__(self, handle)
 
