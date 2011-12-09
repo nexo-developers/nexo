@@ -27,12 +27,9 @@ int idObjetoDetectado = -1; //id del objeto PUI que se ha seleccionado
 int anchoPantalla = 30;
 int altoPantalla = 24;
 
-unsigned int postKeyEventWait = 0;// espera post envio de un evento
-
-unsigned int postMouseEventWait = 0;// wait after mouse's event
+unsigned long postMouseEventWait = 0;// wait after mouse's event
 
 // Propiedades para gconf
-char *key_postKeyEventWait = "/apps/mousecam/postKeyEventWait";
 char *key_adj = "/apps/mousecam/adj";
 char *monitor = "/apps/mousecam";
 
@@ -61,47 +58,47 @@ static void generateEvent(int idObjetoPUIActual){
     switch(idObjetoPUIActual) {
 	case 0:
 		createRelativeMouseEvent(0,-10);
-        sleep(postMouseEventWait);
+        usleep(postMouseEventWait);
 		break;
 	case 1:
 		createRelativeMouseEvent(0,10);
-        sleep(postMouseEventWait);
+        usleep(postMouseEventWait);
 		break;
 	case 2:
 		createRelativeMouseEvent(10,0);
-        sleep(postMouseEventWait);
+        usleep(postMouseEventWait);
 		break;
 	case 3:
 		createRelativeMouseEvent(-10,0);
-        sleep(postMouseEventWait);
+        usleep(postMouseEventWait);
 		break;
 	case 4:
 		mouseClick(Button1);
-		sleep(3);
+		usleep(postMouseEventWait);
 		break;
 	case 5:
 		createKeyEvent(TRUE, XStringToKeysym("A"), 0);
-        sleep(postKeyEventWait);
+        usleep(postMouseEventWait);
         break;
 	case 6:
 		createKeyEvent(TRUE, XStringToKeysym("B"), 0);
-        sleep(postKeyEventWait);
+        usleep(postMouseEventWait);
         break;
 	case 7:
 		createKeyEvent(TRUE, XStringToKeysym("D"), 0);
-        sleep(postKeyEventWait);
+        usleep(postMouseEventWait);
         break;
 	case 8:
 		createKeyEvent(TRUE, XStringToKeysym("I"), 0);
-        sleep(postKeyEventWait);
+        usleep(postMouseEventWait);
         break;
 	case 9:
 		createKeyEvent(TRUE, XStringToKeysym("E"), 0);
-        sleep(postKeyEventWait);
+        usleep(postMouseEventWait);
         break;
 	case 10:
 		createKeyEvent(TRUE, XStringToKeysym("M"), 0);
-		sleep(postKeyEventWait);
+		usleep(postMouseEventWait);
 		break;
 	default:printf("No event defined.\n");
     }
@@ -200,51 +197,34 @@ void* listenerGconf(void *ptr)
 
 	client = gconf_client_get_default();
 
-	// If unset, set default valores
-	value = gconf_client_get_without_default(client, key_postKeyEventWait, NULL);
-	if (NULL == value) {
-		postKeyEventWait = 1000;
-		gconf_client_set_int(client, key_postKeyEventWait, postKeyEventWait, NULL);
-	} else {
-		postKeyEventWait = gconf_value_get_int(value);
-	}
 	value = gconf_client_get_without_default(client, key_adj, NULL);
 	if (NULL == value) {
-		postMouseEventWait = 100.0;
+		printf("valor de postMouseEventWait por defecto");
+		postMouseEventWait = 1000000.0;
 		gconf_client_set_float(client, key_adj, postMouseEventWait, NULL);
 	} else {
-		postMouseEventWait = gconf_value_get_float(value);
+		printf("valor de postMouseEventWait calculado 10.000.000 / ");
+		postMouseEventWait = (unsigned long) (10000000.0 / gconf_value_get_float(value));
 	}
 
 	gconf_client_add_dir(client, monitor, GCONF_CLIENT_PRELOAD_NONE, NULL);
-	gconf_client_notify_add(client,
-			  	  	  	  	  key_postKeyEventWait,
-	                          setKeys,
-	                          NULL,
-	                          NULL,
-	                          NULL);
-
 	gconf_client_notify_add(client,
 							  key_adj,
 							  setKeys,
 							  NULL,
 							  NULL,
 							  NULL);
-printf("pase 1: %d, %u\n", postKeyEventWait, postKeyEventWait);
-sleep(postKeyEventWait);
-printf("pase 2: %d, %u\n", postMouseEventWait, postMouseEventWait);
-sleep(postMouseEventWait);
-printf("pase 3\n");
+//printf("pase 1: %d, %u\n", postMouseEventWait, postMouseEventWait);
+//sleep(postMouseEventWait);
+//printf("pase 2\n");
 	gtk_main();
 }
 
 void setKeys(GConfClient *client, guint cnxn_id, GConfEntry *entry,
 		gpointer user_data) {
 	if (0 == strcmp(gconf_entry_get_key(entry), key_adj)) {
-		postMouseEventWait = gconf_client_get_float(client, key_adj, NULL);
-		printf("Callback, nuevo valor: %d\n", postMouseEventWait);
-	} else if (0 == strcmp(gconf_entry_get_key(entry), key_postKeyEventWait)) {
-		postKeyEventWait = gconf_client_get_int(client, key_postKeyEventWait, NULL);
+		postMouseEventWait = (unsigned long) (10000000.0 / gconf_client_get_float(client, key_adj, NULL));
+		printf("Callback, nuevo valor de postMouseEventWait: %d\n", postMouseEventWait);
 	}
 }
 

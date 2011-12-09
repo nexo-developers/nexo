@@ -106,7 +106,7 @@ class MouseCamActivity(activity.Activity):
         # Note that the page_size value only makes a difference for
         # scrollbar widgets, and the highest value you'll get is actually
         # (upper - page_size).
-        adj1 = gtk.Adjustment(0.0, 0.0, 101.0, 0.1, 1.0, 1.0)
+        adj1 = gtk.Adjustment(1.0, 1.0, 101.0, 0.1, 1.0, 1.0)
         adj1.connect("value_changed", self.cb_change_event)
         box3 = gtk.VBox(False, 10)
         box2.pack_start(box3, True, True, 0)
