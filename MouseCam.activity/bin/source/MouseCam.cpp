@@ -200,8 +200,8 @@ void* listenerGconf(void *ptr)
 	value = gconf_client_get_without_default(client, key_adj, NULL);
 	if (NULL == value) {
 		printf("valor de postMouseEventWait por defecto");
-		postMouseEventWait = 1000000.0;
-		gconf_client_set_float(client, key_adj, postMouseEventWait, NULL);
+		postMouseEventWait = 5000000.0;
+		//gconf_client_set_float(client, key_adj, 2.0, NULL);
 	} else {
 		printf("valor de postMouseEventWait calculado 10.000.000 / ");
 		postMouseEventWait = (unsigned long) (10000000.0 / gconf_value_get_float(value));
