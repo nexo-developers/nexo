@@ -106,7 +106,13 @@ class MouseCamActivity(activity.Activity):
         # Note that the page_size value only makes a difference for
         # scrollbar widgets, and the highest value you'll get is actually
         # (upper - page_size).
-        adj1 = gtk.Adjustment(1.0, 1.0, 101.0, 0.1, 1.0, 1.0)
+        gconf_persist_value = self.client.get_float('/apps/mousecam/adj')
+        if(gconf_persist_value == 0):
+            slide_start_value = 50.0
+            self.client.set_float('/apps/mousecam/adj', slide_start_value)
+        else:
+            slide_start_value = gconf_persist_value         
+        adj1 = gtk.Adjustment(slide_start_value, 1.0, 101.0, 0.1, 1.0, 1.0)
         adj1.connect("value_changed", self.cb_change_event)
         box3 = gtk.VBox(False, 10)
         box2.pack_start(box3, True, True, 0)
