@@ -22,8 +22,7 @@ class imprimir(object):
     def dejarImprimir(self):
         self.ok= 1
     
-    
-     
+        
     def mostrarSubtitulos(self, escena, ruta):
             if (self.ok==1):
                 
@@ -34,12 +33,6 @@ class imprimir(object):
                 
                 #print("Hay" ,subs.__len__()," subtitulos")
                 
-         
-##                if (self.tiempoCambio < pygame.time.get_ticks()/250):  # paso cuarto segundo   
-##                    self.tiempoCambio = pygame.time.get_ticks()/250
-#                if (self.tiempoCambio < pygame.time.get_ticks()):  # paso cuarto segundo   
-#                    self.tiempoCambio = pygame.time.get_ticks()
-#                    self.tiempoActual= self.tiempoActual+1 
                 #print "SEGUNDOS=", cant_segs
                 if (self.tmp== subs.__len__()): # cuando llega al final de los subtitulos
                     #self.tmp= subs.__len__()-1                
@@ -47,30 +40,12 @@ class imprimir(object):
                     self.ok= 0
                     #print("entro en tiempo " ,self.tiempoActual)
                     self.tiempoActual= 0
-                   
-               
+
                 linea= subs[self.tmp]
-                
-#                inicio_Msg_min = linea.start.minutes
-#                fin_Msg_min = linea.end.minutes
-#                inicio_Msg_seg = linea.start.seconds
-#                fin_Msg_seg = linea.end.seconds
-#                inicio_Msg_mili = linea.start.milliseconds
-#                fin_Msg_mili = linea.end.milliseconds
-                #tiempo_ini = time(self.hours, self.minutes, self.seconds,self.milliseconds * 1000)
-                #tiempo_ini = time(0, inicio_Msg_min, inicio_Msg_seg,inicio_Msg_mili)
-                #tiempo_fin = time(0, fin_Msg_min, fin_Msg_seg,fin_Msg_mili)
-                #print("tiempo_ini=", tiempo_ini)
-                #print("tiempo_fin", tiempo_fin)
-                
-#                tics_ini = (inicio_Msg_min*60*1000)+(inicio_Msg_seg*1000)+inicio_Msg_mili
-#                tics_fin = (fin_Msg_min*60*1000)+(fin_Msg_seg*1000)+fin_Msg_mili
                 tics_ini = (linea.start.minutes*60*1000)+(linea.start.seconds*1000)+linea.start.milliseconds
                 tics_fin = (linea.end.minutes*60*1000)+(linea.end.seconds*1000)+linea.end.milliseconds
                 
-                if ((tics_ini<=(pygame.time.get_ticks()-self.offset)) and ((pygame.time.get_ticks()-self.offset)<=tics_fin)):
-                #if ((inicio_Msg_seg<=self.tiempoActual/4) and (self.tiempoActual/4<=fin_Msg_seg)): 
-                    
+                if ((tics_ini<=(pygame.time.get_ticks()-self.offset)) and ((pygame.time.get_ticks()-self.offset)<=tics_fin)): 
                     if (self.imprimir==1):
                         self.escena.draw()          # reimprime la escena
                         self.printTexto(linea.text) # imprime mensaje

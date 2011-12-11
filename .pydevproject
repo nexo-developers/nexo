@@ -5,7 +5,10 @@
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">python 2.7</pydev_property>
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
-<path>/Narrativa/src</path>
-<path>/Narrativa/Librerias/pysrt-0.2.2-py2.6.egg</path>
+<path>/Historias/src</path>
+<path>/Historias/Librerias/pysrt-0.2.2-py2.6.egg</path>
+</pydev_pathproperty>
+<pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
+<path>/home/mathew/workspace/Historias/Librerias/pysrt-0.2.2-py2.6.egg</path>
 </pydev_pathproperty>
 </pydev_project>

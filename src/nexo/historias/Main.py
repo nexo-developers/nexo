@@ -44,7 +44,14 @@ class Main(object):
         self.parseScenes    ("../../../resources/Scenes.xml")
         self._running = True
         
-        
+    # Ahora no se usa
+#    def persId(self, opciones, idOpcion):
+#        res=None
+#        for opcion in opciones:
+#            if opcion.id == idOpcion:
+#                res = opcion.personajeId 
+#            
+#        return res
 
     def onEvent(self, event):
         if event.type == pygame.QUIT:
@@ -57,23 +64,30 @@ class Main(object):
         if (event.type == KEYUP) and self.optionsVisible:
             if pygame.key.name(event.key) == "1":
                 print "Se selecciono la opcion 1"
+                #pers = self.scenes[self.current_scene].options[0].personajeId
+                #pers = self.persId(self.scenes[self.current_scene].options,1)
                 self.current_scene = self.scenes[self.current_scene].escena_opcion1
+                #self.scenes[self.current_scene].sacarPersonajes.append(pers)
                 self.scenes[self.current_scene].draw()
                
 
           
             elif pygame.key.name(event.key) == "2":
                 print "Se selecciono la opcion 2"
+                #pers = self.persId(self.scenes[self.current_scene].options,2)
                 self.current_scene = self.scenes[self.current_scene].escena_opcion2
+                #self.scenes[self.current_scene].sacarPersonajes.append(pers)
                 self.scenes[self.current_scene].draw()
                
                 
               
             elif pygame.key.name(event.key) == "3":
                 print "Se selecciono la opcion 3"
+                #pers = self.persId(self.scenes[self.current_scene].options,3)
                 self.current_scene = self.scenes[self.current_scene].escena_opcion3
+                #self.scenes[self.current_scene].sacarPersonajes.append(pers)
                 self.scenes[self.current_scene].draw()
-                self.scenes[self.current_scene].playRelato()
+                #self.scenes[self.current_scene].playRelato()
                
 
         if (self.showOptions != True): 
@@ -140,9 +154,12 @@ class Main(object):
             idscene = x.getAttribute("id")
             fondo = x.getElementsByTagName("background")[0]
             background = fondo.getAttribute("value")
-            escena_opcion1 = x.getElementsByTagName("escena_opcion1")[0].getAttribute("value")
-            escena_opcion2 = x.getElementsByTagName("escena_opcion2")[0].getAttribute("value")
-            escena_opcion3 = x.getElementsByTagName("escena_opcion3")[0].getAttribute("value")
+            if len(x.getElementsByTagName("escena_opcion1")) != 0:
+                escena_opcion1 = x.getElementsByTagName("escena_opcion1")[0].getAttribute("value")
+            if len(x.getElementsByTagName("escena_opcion2")) != 0:
+                escena_opcion2 = x.getElementsByTagName("escena_opcion2")[0].getAttribute("value")
+            if len(x.getElementsByTagName("escena_opcion3")) != 0:
+                escena_opcion3 = x.getElementsByTagName("escena_opcion3")[0].getAttribute("value")
                  
             audio = x.getElementsByTagName("audio")[0].getAttribute("value")
             relato = x.getElementsByTagName("relato")[0].getAttribute("value")
@@ -159,15 +176,17 @@ class Main(object):
                 action_x = opcion.getElementsByTagName("action")[0].getAttribute("x")
                 action_y = opcion.getElementsByTagName("action")[0].getAttribute("y")
                 action_speed = opcion.getElementsByTagName("action")[0].getAttribute("x")
+                personajeId = opcion.getElementsByTagName("character")[0].getAttribute("charid")
                 act = Action(action_verb,action_resource,action_x,action_y,action_speed)
 
-                newOpt = Option(optionId,optionImage,optionPosX, optionPosY,act)
+                newOpt = Option(optionId,optionImage,optionPosX, optionPosY,act,personajeId)
                 parsedOptions.append(newOpt)
             scene = Scene(self._surf_display, background, escena_opcion1 , escena_opcion2, escena_opcion3, audio, relato, parsedOptions)
             characters_xml = x.getElementsByTagName("scene_character")
             print "personajes " + str(len(characters_xml))
             for charxml in characters_xml:
                 charid = charxml.getAttribute("id")
+                print "IdEscena= " + idscene + ". Personaje " + charid
                 charx = charxml.getElementsByTagName("position")[0].getAttribute("x")
                 chary = charxml.getElementsByTagName("position")[0].getAttribute("y")
                 if charid != "guzman":

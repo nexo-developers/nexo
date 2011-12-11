@@ -19,6 +19,11 @@ class Scene(object):
         self._surf_display= None
         self.nroEscena= None
         self.timer= None
+        # Lista con los id de los "personajes" (opciones a sacar)
+        # La idea es que al momento de elegir una opcion se cargue en esta variable el personaje a sacar
+        # Y que al momento de dibujar la escena se filtr los personajes que se encuentren aqui
+        # 11-12-2011 No es necesario, lo manejamos en el xml
+        #self.sacarPersonajes = []; 
 
     def setearDatos(self,_surf_display, nroEscena):
         self._surf_display= _surf_display
@@ -27,7 +32,7 @@ class Scene(object):
 
 
     def addCharacter(self, character):
-        print "agregando personaje"
+        print "agregando personaje " + character.id
         self.character_list[character.id] = character
         
         
@@ -36,8 +41,10 @@ class Scene(object):
         rect.topleft = (0,0)
         self.screen.blit(self.back_image, rect)
         #print "dibujando escena con " + str(len(self.character_list)) + " personajes"
+        #conjDePersonajes = set(self.sacarPersonajes)
         for i in self.character_list:
-            self.screen.blit(self.character_list[i].image, self.character_list[i].rect)
+            #if i not in conjDePersonajes:
+                self.screen.blit(self.character_list[i].image, self.character_list[i].rect)
         pygame.display.flip()
         
         
