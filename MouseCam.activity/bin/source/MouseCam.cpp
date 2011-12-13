@@ -14,7 +14,7 @@
 int usarAlgoritmoRapido = 1;
 char *vconf = "";
 int xsize, ysize;
-int thresh = 100;
+int threshold = 100;
 int count = 0;
 char *camara_calibracion = "source/Data/camera_para.dat";//Archivo de calibracion de la camara
 ARParam cparam;
@@ -31,6 +31,7 @@ unsigned long postMouseEventWait = 0;// wait after mouse's event
 
 // Propiedades para gconf
 char *key_adj = "/apps/mousecam/adj";
+char *key_threshold = "/apps/mousecam/threshold";
 char *monitor = "/apps/mousecam";
 
 typedef struct {
@@ -207,9 +208,24 @@ void* listenerGconf(void *ptr)
 		postMouseEventWait = (unsigned long) (10000000.0 / gconf_value_get_float(value));
 	}
 
+	value = gconf_client_get_without_default(client, key_threshold, NULL);
+	if (NULL == value) {
+		printf("valor de threshold por defecto");
+		threshold = 100;
+	} else {
+		printf("obteniendo valor de threshold");
+		threshold = gconf_value_get_int(value);
+	}
+
 	gconf_client_add_dir(client, monitor, GCONF_CLIENT_PRELOAD_NONE, NULL);
 	gconf_client_notify_add(client,
 							  key_adj,
+							  setKeys,
+							  NULL,
+							  NULL,
+							  NULL);
+	gconf_client_notify_add(client,
+							  key_threshold,
 							  setKeys,
 							  NULL,
 							  NULL,
@@ -225,6 +241,9 @@ void setKeys(GConfClient *client, guint cnxn_id, GConfEntry *entry,
 	if (0 == strcmp(gconf_entry_get_key(entry), key_adj)) {
 		postMouseEventWait = (unsigned long) (10000000.0 / gconf_client_get_float(client, key_adj, NULL));
 		printf("Callback, nuevo valor de postMouseEventWait: %d\n", postMouseEventWait);
+	} else if (0 == strcmp(gconf_entry_get_key(entry), key_threshold)) {
+		threshold = gconf_client_get_int(client, key_threshold, NULL);
+		pui->setARThreshold(threshold);
+		printf("Callback, nuevo valor de threshold: %d\n", threshold);
 	}
 }
-

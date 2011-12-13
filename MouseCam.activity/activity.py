@@ -19,6 +19,7 @@
 import gconf
 import gtk
 import logging
+import math
 import os
 
 from gettext import gettext as _
@@ -31,6 +32,8 @@ from sugar.activity.widgets import TitleEntry
 from sugar.activity.widgets import StopButton
 from sugar.activity.widgets import ShareButton
 
+NOT_DEFINED = 0
+
 class MouseCamActivity(activity.Activity):
     """MouseCamActivity class as specified in activity.info"""
 
@@ -38,9 +41,17 @@ class MouseCamActivity(activity.Activity):
         #manage here the change in the slide bar ;)
         #persist here in order to notify gconfself.
         self.client.set_float('/apps/mousecam/adj', adj.value)
-        print(adj.value)
+        print('adj: ',adj.value)
         print("pase")
-    
+        
+    def cb_threshold_change_event(self, adj):
+        #manage here the change in the slide bar ;)
+        #persist here in order to notify gconfself.
+        aux = math.trunc(adj.value)
+        self.client.set_int('/apps/mousecam/threshold', aux)
+        print('humbral: ',adj.value)
+        print("pase threshold")
+        
     def cb_cleanup(self, arg):
         #aca hay que usar algun hacking para matar el proceso o mandar un mensaje a mousecam para que se cierre
         os.system("pkill MouseCam")
@@ -107,16 +118,28 @@ class MouseCamActivity(activity.Activity):
         # scrollbar widgets, and the highest value you'll get is actually
         # (upper - page_size).
         gconf_persist_value = self.client.get_float('/apps/mousecam/adj')
-        if(gconf_persist_value == 0):
-            slide_start_value = 50.0
-            self.client.set_float('/apps/mousecam/adj', slide_start_value)
+        if(gconf_persist_value == NOT_DEFINED):
+            slide_vel_start_value = 50.0
+            self.client.set_float('/apps/mousecam/adj', slide_vel_start_value)
         else:
-            slide_start_value = gconf_persist_value         
-        adj1 = gtk.Adjustment(slide_start_value, 1.0, 101.0, 0.1, 1.0, 1.0)
+            slide_vel_start_value = gconf_persist_value         
+        adj1 = gtk.Adjustment(slide_vel_start_value, 1.0, 101.0, 0.1, 1.0, 1.0)
         adj1.connect("value_changed", self.cb_change_event)
         box3 = gtk.VBox(False, 10)
         box2.pack_start(box3, True, True, 0)
         box3.show()
+
+        gconf_persist_value = self.client.get_int('/apps/mousecam/threshold')
+        if(gconf_persist_value == NOT_DEFINED):
+            slide_threshold_start_value = 100
+            self.client.set_int('/apps/mousecam/threshold', slide_threshold_start_value)
+        else:
+            slide_threshold_start_value = gconf_persist_value
+        adj2 = gtk.Adjustment(slide_threshold_start_value, 0, 256, 1.0, 1.0, 1.0)
+        adj2.connect("value_changed", self.cb_threshold_change_event)
+        box4 = gtk.VBox(False, 10)
+        box1.pack_start(box4, True, True, 0)
+        box4.show()
 
         # Reuse the same adjustment
         self.hscale = gtk.HScale(adj1)
@@ -124,6 +147,14 @@ class MouseCamActivity(activity.Activity):
         ###scale_set_default_values(self.hscale)
         box3.pack_start(self.hscale, True, True, 0)
         self.hscale.show()
+        
+        
+        self.hscale2 = gtk.HScale(adj2)
+        self.hscale2.set_size_request(600, 90)
+        box4.pack_start(self.hscale2, True, True, 0)
+        self.hscale2.show()
+        
+        
 
 
         box2 = gtk.HBox(False, 10)
@@ -140,6 +171,10 @@ class MouseCamActivity(activity.Activity):
         box3.pack_start(label, False, False, 0)
         label.show()
   
+        label = gtk.Label("Deslize la barra para disminuir el humbral:")
+        box4.pack_start(label, False, False, 0)
+        label.show()
+
         menu = gtk.Menu()
   
         self.window.show()
