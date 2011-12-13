@@ -1,12 +1,4 @@
 #!/bin/sh
-## Check if gconf-python module exsist
-ERR=`echo import gconf | python 2>&1`
-if [ ${#ERR} -ne 0 ]
-then
-PYTHONPATH=$PYTHONPATH:lib
-fi
-export PYTHONPATH
-
 export SUGAR_BUNDLE_PATH=$(cd $(dirname "$0")/../ && pwd)
 while [ -n "$2" ] ; do
      case "$1" in

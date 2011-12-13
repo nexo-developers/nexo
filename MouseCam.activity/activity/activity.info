@@ -1,8 +1,7 @@
 [Activity]
 name = MouseCam
 activity_version = 3
-service_name = uy.fing.MouseCam
+bundle_id = uy.fing.mouseCam
 exec = sugar-activity activity.MouseCamActivity 
 icon = mouseCam
 show_launcher = yes
-
