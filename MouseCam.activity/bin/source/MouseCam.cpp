@@ -5,6 +5,7 @@
 #include <gconf/gconf-client.h>
 #include <glib.h>
 #include <gtk/gtk.h>
+#include <X11/keysymdef.h>
 //#include <AR/gsub.h>
 //#include <GL/gl.h>
 //#include <GL/glut.h>
@@ -26,12 +27,16 @@ int idObjetoPUIActual = -1; //id del objeto PUI que esta en pantalla, con este e
 int idObjetoDetectado = -1; //id del objeto PUI que se ha seleccionado
 int anchoPantalla = 30;
 int altoPantalla = 24;
+bool keypad_events = false;
+bool return_key_event = false;
 
 unsigned long postMouseEventWait = 0;// wait after mouse's event
 
 // Propiedades para gconf
 char *key_adj = "/apps/mousecam/adj";
 char *key_threshold = "/apps/mousecam/threshold";
+char *key_keypad_events = "/apps/mousecam/keypad_events";
+char *key_returnkey_event = "/apps/mousecam/return_key_instead_click";
 char *monitor = "/apps/mousecam";
 
 typedef struct {
@@ -46,6 +51,7 @@ static void init(void);
 static void cleanup(void);
 static void mainLoop(void);
 void setKeys(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data);
+void setKeypadMode(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data);
 void* threadPUI(void *ptr);
 void* listenerGconf(void *ptr);
 
@@ -55,26 +61,47 @@ void* listenerGconf(void *ptr);
 // Otra cosa que descubrí es el hecho de los falsos positivos, dos por tres ocurren y son muy molestos, hay que implementar acá algún mecanismo de 
 // eliminación de rebotes
 static void generateEvent(int idObjetoPUIActual){
-    //TODO do error handling with the return of the event library  
+
+
     switch(idObjetoPUIActual) {
 	case 0:
-		createRelativeMouseEvent(0,-10);
+		if (keypad_events) {
+			createKeyEvent(TRUE, XK_Up, 0);
+		} else {
+			createRelativeMouseEvent(0,-10);
+		}
         usleep(postMouseEventWait);
 		break;
 	case 1:
-		createRelativeMouseEvent(0,10);
+		if (keypad_events) {
+			createKeyEvent(TRUE, XK_Down, 0);
+		} else {
+			createRelativeMouseEvent(0,10);
+		}
         usleep(postMouseEventWait);
 		break;
 	case 2:
-		createRelativeMouseEvent(10,0);
+		if (keypad_events) {
+			createKeyEvent(TRUE, XK_Right, 0);
+		} else {
+			createRelativeMouseEvent(10,0);
+		}
         usleep(postMouseEventWait);
 		break;
 	case 3:
-		createRelativeMouseEvent(-10,0);
+		if (keypad_events) {
+			createKeyEvent(TRUE, XK_Left, 0);
+		} else {
+			createRelativeMouseEvent(-10,0);
+		}
         usleep(postMouseEventWait);
 		break;
 	case 4:
-		mouseClick(Button1);
+		if (return_key_event) {
+			createKeyEvent(TRUE, XK_Return, 0);
+		} else {
+			mouseClick(Button1);
+		}
 		usleep(postMouseEventWait);
 		break;
 	case 5:
@@ -217,6 +244,23 @@ void* listenerGconf(void *ptr)
 		threshold = gconf_value_get_int(value);
 	}
 
+	value = gconf_client_get_without_default(client, key_keypad_events, NULL);
+	if (NULL == value) {
+		printf("valor de keypad_events por defecto: 0 (false)");
+		keypad_events = false;
+	} else {
+		printf("obteniendo valor de keypad_events");
+		keypad_events = gconf_value_get_bool(value);
+	}
+	value = gconf_client_get_without_default(client, key_returnkey_event, NULL);
+	if (NULL == value) {
+		printf("valor de return_key_event por defecto: 0 (false)");
+		return_key_event = false;
+	} else {
+		printf("obteniendo valor de return_key_event");
+		return_key_event = gconf_value_get_bool(value);
+	}
+
 	gconf_client_add_dir(client, monitor, GCONF_CLIENT_PRELOAD_NONE, NULL);
 	gconf_client_notify_add(client,
 							  key_adj,
@@ -230,6 +274,19 @@ void* listenerGconf(void *ptr)
 							  NULL,
 							  NULL,
 							  NULL);
+
+	gconf_client_notify_add(client,
+			key_keypad_events,
+			setKeypadMode,
+			NULL,
+			NULL,
+			NULL);
+	gconf_client_notify_add(client,
+			key_returnkey_event,
+			setKeypadMode,
+			NULL,
+			NULL,
+			NULL);
 //printf("pase 1: %d, %u\n", postMouseEventWait, postMouseEventWait);
 //sleep(postMouseEventWait);
 //printf("pase 2\n");
@@ -245,5 +302,16 @@ void setKeys(GConfClient *client, guint cnxn_id, GConfEntry *entry,
 		threshold = gconf_client_get_int(client, key_threshold, NULL);
 		pui->setARThreshold(threshold);
 		printf("Callback, nuevo valor de threshold: %d\n", threshold);
+	}
+}
+
+void setKeypadMode(GConfClient *client, guint cnxn_id, GConfEntry *entry,
+		gpointer user_data) {
+	if (0 == strcmp(gconf_entry_get_key(entry), key_keypad_events)) {
+		keypad_events = gconf_client_get_bool(client, key_keypad_events, NULL);
+		printf("Callback, nuevo valor de keypad_events: %d\n", keypad_events);
+	} else if (0 == strcmp(gconf_entry_get_key(entry), key_returnkey_event)) {
+		return_key_event = gconf_client_get_bool(client, key_returnkey_event, NULL);
+		printf("Callback, nuevo valor de return_key_event: %d\n", return_key_event);
 	}
 }
