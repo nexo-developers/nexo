@@ -51,7 +51,15 @@ class MouseCamActivity(activity.Activity):
         self.client.set_int('/apps/mousecam/threshold', aux)
         print('humbral: ',adj.value)
         print("pase threshold")
+
+    def cb_keypad_events(self, widget):
+        self.client.set_bool('/apps/mousecam/keypad_events', (False, True)[widget.get_active()])
+        print('keypad_events: ', (False, True)[widget.get_active()])
         
+    def cb_returnkey_event(self, widget):
+        self.client.set_bool('/apps/mousecam/return_key_instead_click', (False, True)[widget.get_active()])
+        print('return_key_instead_click: ', (False, True)[widget.get_active()])
+
     def cb_cleanup(self, arg):
         #aca hay que usar algun hacking para matar el proceso o mandar un mensaje a mousecam para que se cierre
         os.system("pkill MouseCam")
@@ -98,20 +106,11 @@ class MouseCamActivity(activity.Activity):
         self.set_toolbar_box(toolbar_box)
         toolbar_box.show()
 
-        # label with the text, make the string translatable
-        #label = gtk.Label(_("Deslize la barra para enlentecer el mouse"))
-        #self.set_canvas(label)
-        #label.show()
-
         # And, one last HScale widget for adjusting the mouse speed
         box1 = gtk.VBox(False, 0)
+        box1.set_border_width(10)
         self.set_canvas(box1)
         box1.show()
-
-        box2 = gtk.HBox(False, 100)
-        box2.set_border_width(10)
-        box1.pack_start(box2, True, True, 0)
-        box2.show()
 
         # value, lower, upper, step_increment, page_increment, page_size
         # Note that the page_size value only makes a difference for
@@ -125,9 +124,9 @@ class MouseCamActivity(activity.Activity):
             slide_vel_start_value = gconf_persist_value         
         adj1 = gtk.Adjustment(slide_vel_start_value, 1.0, 101.0, 0.1, 1.0, 1.0)
         adj1.connect("value_changed", self.cb_change_event)
-        box3 = gtk.VBox(False, 10)
-        box2.pack_start(box3, True, True, 0)
-        box3.show()
+        box1_1 = gtk.VBox(False, 10)
+        box1.pack_start(box1_1, True, True, 0)
+        box1_1.show()
 
         gconf_persist_value = self.client.get_int('/apps/mousecam/threshold')
         if(gconf_persist_value == NOT_DEFINED):
@@ -137,43 +136,54 @@ class MouseCamActivity(activity.Activity):
             slide_threshold_start_value = gconf_persist_value
         adj2 = gtk.Adjustment(slide_threshold_start_value, 0, 256, 1.0, 1.0, 1.0)
         adj2.connect("value_changed", self.cb_threshold_change_event)
-        box4 = gtk.VBox(False, 10)
-        box1.pack_start(box4, True, True, 0)
-        box4.show()
+        box1_2 = gtk.VBox(False, 10)
+        box1.pack_start(box1_2, True, True, 0)
+        box1_2.show()
 
         # Reuse the same adjustment
         self.hscale = gtk.HScale(adj1)
         self.hscale.set_size_request(600, 90)
         ###scale_set_default_values(self.hscale)
-        box3.pack_start(self.hscale, True, True, 0)
+        box1_1.pack_start(self.hscale, True, True, 0)
         self.hscale.show()
         
         
         self.hscale2 = gtk.HScale(adj2)
         self.hscale2.set_size_request(600, 90)
-        box4.pack_start(self.hscale2, True, True, 0)
+        box1_2.pack_start(self.hscale2, True, True, 0)
         self.hscale2.show()
         
-        
 
-
-        box2 = gtk.HBox(False, 10)
-        box2.set_border_width(10)
-        box1.pack_start(box2, True, True, 0)
-        box2.show()
-
-  
-        box2 = gtk.HBox(False, 10)
-        box2.set_border_width(10)
 
         # An option menu to change the position of the value
         label = gtk.Label("Deslize la barra para enlentecer el mouse:")
-        box3.pack_start(label, False, False, 0)
+        box1_1.pack_start(label, False, False, 0)
         label.show()
   
-        label = gtk.Label("Deslize la barra para disminuir el humbral:")
-        box4.pack_start(label, False, False, 0)
+        label = gtk.Label("Deslize la barra para disminuir el umbral:")
+        box1_2.pack_start(label, False, False, 0)
         label.show()
+        
+        
+        # Check button for mouse / keypad event switch
+        button_keypad = gtk.CheckButton("Habilitar eventos de keypad")
+        button_keypad.connect("toggled", self.cb_keypad_events)
+        button_keypad.show()
+
+        # Check button for click / return key event switch
+        button_returnkey = gtk.CheckButton("Habilitar tecla Return en lugar de Click del mouse")
+        button_returnkey.connect("toggled", self.cb_keypad_events)
+        button_returnkey.show()
+
+
+        box1_3 = gtk.VBox(False, 10)
+        box1_3.show()
+        box1_3.pack_start(button_keypad, False, False, 2)
+        box1_3.pack_start(button_returnkey, False, False, 2)
+        
+        box1.pack_start(box1_3, True, True, 0)
+        
+        
 
         menu = gtk.Menu()
   
