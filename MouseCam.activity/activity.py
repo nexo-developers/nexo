@@ -105,6 +105,10 @@ class MouseCamActivity(activity.Activity):
 
         self.set_toolbar_box(toolbar_box)
         toolbar_box.show()
+        
+        # Set default values for keypad and returnkey events
+        self.client.set_bool('/apps/mousecam/keypad_events', False)
+        self.client.set_bool('/apps/mousecam/return_key_instead_click', False)
 
         # And, one last HScale widget for adjusting the mouse speed
         box1 = gtk.VBox(False, 0)
@@ -149,6 +153,7 @@ class MouseCamActivity(activity.Activity):
         
         
         self.hscale2 = gtk.HScale(adj2)
+        self.hscale2.set_digits(0)
         self.hscale2.set_size_request(600, 90)
         box1_2.pack_start(self.hscale2, True, True, 0)
         self.hscale2.show()
