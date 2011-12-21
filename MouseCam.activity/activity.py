@@ -16,11 +16,17 @@
 
 """HelloWorld Activity: A case study for developing an activity."""
 
-import gconf
 import gtk
 import logging
 import math
 import os
+
+try:
+    import gconf
+except ImportError:
+    import sys
+    sys.path.append('lib/python')
+    import gconf
 
 from gettext import gettext as _
 
