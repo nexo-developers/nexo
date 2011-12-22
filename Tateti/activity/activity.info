@@ -1,0 +1,7 @@
+[Activity]
+name = TatetiMesh 
+activity_version = 1
+host_version = 1
+service_name = org.laptop.community.TatetiMesh
+icon = activity
+exec = sugar-activity activity.Activity
