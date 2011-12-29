@@ -31,12 +31,12 @@ except ImportError:
 from gettext import gettext as _
 
 from sugar.activity import activity
-from sugar.graphics.toolbarbox import ToolbarBox
-from sugar.activity.widgets import ActivityButton
-from sugar.activity.widgets import ActivityToolbox
-from sugar.activity.widgets import TitleEntry
-from sugar.activity.widgets import StopButton
-from sugar.activity.widgets import ShareButton
+try:  # 0.86 toolbar widgets
+    from sugar.activity.widgets import ActivityToolbarButton, ActivityButton, ActivityToolbox, TitleEntry, StopButton, ShareButton
+    from sugar.graphics.toolbarbox import ToolbarBox
+    HAS_TOOLBARBOX = True
+except ImportError:
+    HAS_TOOLBARBOX = False
 
 NOT_DEFINED = 0
 
@@ -82,34 +82,42 @@ class MouseCamActivity(activity.Activity):
         # make the share option insensitive
         self.max_participants = 1
 
+        self.has_toolbarbox = HAS_TOOLBARBOX
+
         #register destroy callback
         self.connect("destroy", self.cb_cleanup)
-        # toolbar with the new toolbar redesign
-        toolbar_box = ToolbarBox()
 
-        activity_button = ActivityButton(self)
-        toolbar_box.toolbar.insert(activity_button, 0)
-        activity_button.show()
+        if(self.has_toolbarbox):
+            # toolbar with the new toolbar redesign
+            toolbar_box = ToolbarBox()
+            activity_button = ActivityButton(self)
+            toolbar_box.toolbar.insert(activity_button, 0)
+            activity_button.show()
 
-        title_entry = TitleEntry(self)
-        toolbar_box.toolbar.insert(title_entry, -1)
-        title_entry.show()
+            title_entry = TitleEntry(self)
+            toolbar_box.toolbar.insert(title_entry, -1)
+            title_entry.show()
 
-        share_button = ShareButton(self)
-        toolbar_box.toolbar.insert(share_button, -1)
-        share_button.show()
-        
-        separator = gtk.SeparatorToolItem()
-        separator.props.draw = False
-        separator.set_expand(True)
-        toolbar_box.toolbar.insert(separator, -1)
-        separator.show()
+            share_button = ShareButton(self)
+            toolbar_box.toolbar.insert(share_button, -1)
+            share_button.show()
 
-        stop_button = StopButton(self)
-        toolbar_box.toolbar.insert(stop_button, -1)
-        stop_button.show()
+            separator = gtk.SeparatorToolItem()
+            separator.props.draw = False
+            separator.set_expand(True)
+            toolbar_box.toolbar.insert(separator, -1)
+            separator.show()
 
-        self.set_toolbar_box(toolbar_box)
+            stop_button = StopButton(self)
+            toolbar_box.toolbar.insert(stop_button, -1)
+            stop_button.show()
+            self.set_toolbar_box(toolbar_box)
+
+        else:
+            # toolbar with the old toolbar design
+            toolbar_box = activity.ActivityToolbox(self)
+            self.set_toolbox(toolbar_box)
+
         toolbar_box.show()
         
         # Set default values for keypad and returnkey events
@@ -200,4 +208,6 @@ class MouseCamActivity(activity.Activity):
   
         self.window.show()
         os.system("bin/execute.sh &")
+
+
 
