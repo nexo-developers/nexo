@@ -1,8 +1,0 @@
-[Activity]
-name = MouseCam
-activity_version = 3
-service_name = uy.fing.MouseCam
-exec = execute.sh 
-icon = mouseCam
-show_launcher = yes
-

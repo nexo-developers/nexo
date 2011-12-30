@@ -25,7 +25,7 @@ try:
     import gconf
 except ImportError:
     import sys
-    sys.path.append('lib/python')
+    sys.path.append('lib/python') #revisar si no falta ./ 
     import gconf
 
 from gettext import gettext as _
@@ -175,11 +175,11 @@ class MouseCamActivity(activity.Activity):
 
 
         # An option menu to change the position of the value
-        label = gtk.Label("Deslize la barra para enlentecer el mouse:")
+        label = gtk.Label("Deslice la barra para enlentecer el mouse:")
         box1_1.pack_start(label, False, False, 0)
         label.show()
   
-        label = gtk.Label("Deslize la barra para disminuir el umbral:")
+        label = gtk.Label("Deslice la barra para disminuir el umbral:")
         box1_2.pack_start(label, False, False, 0)
         label.show()
         
