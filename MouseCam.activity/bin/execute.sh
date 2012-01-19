@@ -12,13 +12,7 @@ while [ -n "$2" ] ; do
 done
 export PATH="$SUGAR_BUNDLE_PATH/bin:$PATH"
 export LD_PRELOAD="$SUGAR_BUNDLE_PATH/lib/libsugarize.so" # otherwise never stops blinkin
-export ARTOOLKIT_CONFIG=export ARTOOLKIT_CONFIG="v4l2src device=/dev/video0 ! videorate ! video/x-raw-yuv,width=320,height=240,framerate=10/1 ! ffmpegcolorspace ! capsfilter caps=video/x-raw-rgb,bpp=24 ! identity name=artoolkit ! fakesink"
+export ARTOOLKIT_CONFIG=export ARTOOLKIT_CONFIG="v4l2src device=/dev/video0 ! videorate ! video/x-raw-yuv,width=352,height=288,framerate=10/1 ! ffmpegcolorspace ! capsfilter caps=video/x-raw-rgb,bpp=24 ! identity name=artoolkit ! fakesink"
 export LD_LIBRARY_PATH="$SUGAR_BUNDLE_PATH/lib/:$LD_LIBRARY_PATH"
 cd "$SUGAR_BUNDLE_PATH/bin/"
-#first try to load MouseCam with 320x240 resolution, if fails configure 640x480 and try to load again
-if ! MouseCam
-then
-	export ARTOOLKIT_CONFIG=export ARTOOLKIT_CONFIG="v4l2src device=/dev/video0 ! videorate ! video/x-raw-yuv,width=352,height=288,framerate=10/1 ! ffmpegcolorspace ! capsfilter caps=video/x-raw-rgb,bpp=24 ! identity name=artoolkit ! fakesink"
-	MouseCam
-fi
-
+MouseCam

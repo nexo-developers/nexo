@@ -175,22 +175,23 @@ class MouseCamActivity(activity.Activity):
 
 
         # An option menu to change the position of the value
-        label = gtk.Label("Deslice la barra para enlentecer el mouse:")
+        #label = gtk.Label(_('Deslice la barra para enlentecer el mouse:'))
+        label = gtk.Label(_('Slide the bar to slow the mouse speed:'))
         box1_1.pack_start(label, False, False, 0)
         label.show()
   
-        label = gtk.Label("Deslice la barra para disminuir el umbral:")
+        label = gtk.Label(_('Slide the bar to decrease the threshold:'))
         box1_2.pack_start(label, False, False, 0)
         label.show()
         
         
         # Check button for mouse / keypad event switch
-        button_keypad = gtk.CheckButton("Habilitar eventos de keypad")
+        button_keypad = gtk.CheckButton(_('Enable keypad events'))
         button_keypad.connect("toggled", self.cb_keypad_events)
         button_keypad.show()
 
         # Check button for click / return key event switch
-        button_returnkey = gtk.CheckButton("Habilitar tecla Return en lugar de Click del mouse")
+        button_returnkey = gtk.CheckButton(_('Enable the return key in place of the mouse click'))
         button_returnkey.connect("toggled", self.cb_keypad_events)
         button_returnkey.show()
 

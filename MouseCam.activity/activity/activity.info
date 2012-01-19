@@ -1,6 +1,6 @@
 [Activity]
 name = MouseCam
-activity_version = 3
+activity_version = 4
 bundle_id = uy.fing.mouseCam
 exec = sugar-activity activity.MouseCamActivity 
 icon = mouseCam
